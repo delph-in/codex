@@ -1,0 +1,24 @@
+[srg]
+vcs = "git clone https://github.com/delph-in/srg.git"
+size = "medium"
+
+[norsource]
+vcs = "wget https://www.nb.no/sbfil/leksikalske_databaser/20140619_norsource_1.0.tar.gz"
+
+[rrg]
+vcs = "wget https://www.coli.uni-saarland.de/~tania/rrg/rrg-20110615.tgz"
+
+[norsyg]
+vcs = "git clone https://github.com/petterha/norsyg.git"
+
+[wambaya]
+vcs = "wget https://faculty.washington.edu/ebender/wmb/wmb.tgz"
+
+[hegram]
+vcs = "https://cl.haifa.ac.il/projects/HeGram/semitic_grammar2-master.zip"
+size = "small"
+metadata = "only if not in grammar"
+
+[burger]
+vcs = "http://bultreebank.org/wp-content/uploads/2017/11/bg.zip"
+size = "small"
