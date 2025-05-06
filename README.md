@@ -5,9 +5,7 @@ A collection of grammars, made as accessible as possible
 
 ## Setup
 
-
-
-
+$ bash compile.sh
 
 
 ## Individual commands
