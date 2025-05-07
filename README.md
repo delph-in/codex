@@ -27,7 +27,7 @@ A project will be used to make as many grammars as it has METADATA files
 
 #### size
 
-rough distinctions
+Very rough distinctions so that people can have a general idea about how big the grammar is.  More detail can be gotten from the ltdb.
 
 * large: lexicon above 30,000
 * medium: lexicon above 5,000
