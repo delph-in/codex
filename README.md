@@ -10,6 +10,33 @@ $ bash compile.sh
 
 ## Individual commands
 
-Download grammars with:
+### Download grammars with:
 
 $ python scripts/download_grammars.py codex.toml build
+
+### codex.toml
+
+Grammars are listed in the file `codex.toml`
+
+vcs is the way to download the grammar
+tree is the treebank (if it is seperate)
+meta is a list of METADATA files (these will overwrite any local ones)
+size "large|medium|small|matrix"
+
+A project will be used to make as many grammars as it has METADATA files
+
+#### size
+
+rough distinctions
+
+* large: lexicon above 30,000
+* medium: lexicon above 5,000
+* small: lexicon above 1,000 
+* matrix: matrix derived grammar with minimal changes
+
+### Make grew corpora with
+
+First install `grew`: https://grew.fr/usage/install/
+and `grewpy`: https://grew.fr/usage/python/
+
+
