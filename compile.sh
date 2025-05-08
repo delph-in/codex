@@ -4,6 +4,8 @@ set -e  # Exit on error
 
 # Paths
 VENV_DIR=".venv"
+BUILD="build"
+
 
 # Step 1: Create .venv if missing
 if [ ! -d "$VENV_DIR" ]; then
@@ -21,12 +23,19 @@ source .venv/bin/activate
 echo "📦 Installing requirements..."
 uv pip install -r requirements.txt
 
-# Step 3: Run the script
+# Step 3: Download grammars
 echo "🚀 Download grammars"
 
-python scripts/download_grammars.py codex.toml build
+python scripts/download_grammars.py codex.toml "${BUILD}"
 
-# Step 3: Run the script
-echo "🚀 Compile ltdb"
 
-bash scripts/build-ltdb.sh
+# Step 3: Compile with ltdb
+echo "🚀 Compile with ltdb"
+
+#bash scripts/build-ltdb.sh "${BUILD}"
+
+# Step 4: Compile grammars with ace
+echo "🚀 Compile wtih ace"
+
+bash scripts/build-ace.sh "${BUILD}"
+

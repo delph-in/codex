@@ -1,8 +1,10 @@
 #!/bin/bash
 
-### Script to convert the Arasaac WordNet to WN-LMF
+### Script to parse the grammars with ltdb
 
 set -e  # Exit immediately on any error
+
+BUILD="${1:-build}"  # Default to 'build' if not prov
 
 TMPDIR="etc/"
 
@@ -16,7 +18,7 @@ if [ ! -d "${LTDBDIR}" ]; then
 fi
 
 ## find METADATA
-files=$(find build local -type f -name "METADATA")
+files=$(find "${BUILD}" local -type f -name "METADATA")
 
 
 for file in $files; do
