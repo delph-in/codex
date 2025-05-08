@@ -1,5 +1,7 @@
 [srg]
 vcs = "git clone https://github.com/delph-in/srg.git"
+trb = "wget https://github.com/delph-in/srg/releases/download/v0.3.6/0.3.6-release.zip"
+
 size = "medium"
 
 [norsource]

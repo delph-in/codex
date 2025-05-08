@@ -1,5 +1,8 @@
 *~
 
+## build directories
+build/
+etc/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

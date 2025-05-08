@@ -14,6 +14,8 @@ $ bash compile.sh
 
 $ python scripts/download_grammars.py codex.toml build
 
+
+
 ### codex.toml
 
 Grammars are listed in the file `codex.toml`
