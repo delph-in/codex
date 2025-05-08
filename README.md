@@ -1,7 +1,9 @@
 # codex
 A collection of grammars, made as accessible as possible
 
+## 🗂 Codex Table
 
+See [codex-table.md](codex-table.md) for a list of all grammars and their settings.
 
 ## Setup
 
@@ -14,7 +16,13 @@ $ bash compile.sh
 
 $ python scripts/download_grammars.py codex.toml build
 
+### Compile ltdb with
 
+$ bash scripts/build-ace.sh build
+
+### Compile grammars using ace
+
+$ bash scripts/build-ace.sh build
 
 ### codex.toml
 
@@ -35,6 +43,11 @@ Very rough distinctions so that people can have a general idea about how big the
 * medium: lexicon above 5,000
 * small: lexicon above 1,000 
 * matrix: matrix derived grammar with minimal changes
+
+
+
+
+
 
 ### Make grew corpora with
 
