@@ -4,7 +4,13 @@
 
 BUILD="${1:-build}"  # Default to 'build' if not prov
 
-### FIXME INSTALL ace, for now assume it is installed
+### get ace
+ACE="ace-0.9.31"
+# acetools-x86-0.9.31.tar.gz
+pushd etc 
+wget -c -N "https://sweaglesw.org/linguistics/ace/download/${ACE}-x86-64.tar.gz"
+tar xfz ${ACE}-x86-64.tar.gz
+popd
 
 ## find METADATA
 files=$(find "${BUILD}" local -type f -name "METADATA")
@@ -27,6 +33,8 @@ except KeyError:
 
 mkdir -p $BUILD/grammars/
 
+echo $files
+
 for file in $files; do
     echo "Processing: $file"
     config_rel=$(get_toml "$file" "['ACE_CONFIG_FILE']")
@@ -38,9 +46,10 @@ for file in $files; do
         outfile="$BUILD/grammars/${nam}.dat"
         logfile="$BUILD/grammars/${nam}-ace.log"
     
-        echo "Compiling into $outfile, log at $logfile"
-    
-        ace -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' > "$logfile"
+        echo "Compiling into $outfile, log at $logfile with etc/${ACE}/ace"
+
+	
+        etc/"${ACE}/ace" -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' > "$logfile"
         ace_status=${PIPESTATUS[0]}
     
         if [[ $ace_status -eq 0 ]]; then
@@ -51,5 +60,6 @@ for file in $files; do
     else
         echo "⚠️ Skipping: missing ACE_CONFIG_FILE or SHORT_GRAMMAR_NAME"
     fi
+    echo
 done
 
