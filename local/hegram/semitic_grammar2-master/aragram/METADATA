@@ -31,8 +31,8 @@ CONTACT_EMAIL="shuly@cs.haifa.ac.il"
 ## Grammar name and web presence
 ## Note: if SHORT_GRAMMAR_NAME is not defined, the directory name is used.
 
-GRAMMAR_NAME="HeGram - an HPSG grammar of Modern Hebrew"
-SHORT_GRAMMAR_NAME="hegram"
+GRAMMAR_NAME="AraGram - an HPSG grammar of Modern Arabic"
+SHORT_GRAMMAR_NAME="aragram"
 WEBSITE="https://cl.haifa.ac.il/projects/HeGram/index.shtml"
 DEMO_WEBSITE=""
 DOCUMENTATION_URL=""
@@ -90,13 +90,13 @@ ASSOCIATED_RESOURCES=""
 ## Language identification
 ## Iso-codes can be looked up at http://www.sil.org/iso639-3/codes.asp
 
-LANGUAGE_NAME="Hebrew"
-ISO_CODE="heb"
+LANGUAGE_NAME="Arabic"
+ISO_CODE="ara"
 
 ## File locations of LKB script file and .grm file read by cheap
 ## Paths relative to top of grammar directory
 
-LKB_SCRIPT_FILE="../../../build/hegram/semitic_grammar2-master/lkb/heb-script"
+LKB_SCRIPT_FILE="../lkb/ara-script"
 # or big-heb-script
 CHEAP_GRM_FILE_NAME=""
-ACE_CONFIG_FILE="../../../build/hegram/semitic_grammar2-master/ace/heb-config.tdl"
+ACE_CONFIG_FILE="../ace/ara-config.tdl"

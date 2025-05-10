@@ -26,13 +26,19 @@ uv pip install -r requirements.txt
 # Step 3: Download grammars
 echo "🚀 Download grammars"
 
-python scripts/download_grammars.py codex.toml "${BUILD}"
+#python scripts/download_grammars.py codex.toml "${BUILD}"
+
+echo "🩹 Overlay local files"
+
+rsync -rv local/ build/
+
+
 
 # make directory for 
 mkdir -p etc
 
 # Step 3: Compile with ltdb
-echo "🚀 Compile with ltdb"
+#echo "🚀 Compile with ltdb"
 
 #bash scripts/build-ltdb.sh "${BUILD}"
 

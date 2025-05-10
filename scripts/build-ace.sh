@@ -13,7 +13,7 @@ tar xfz ${ACE}-x86-64.tar.gz
 popd
 
 ## find METADATA
-files=$(find "${BUILD}" local -type f -name "METADATA")
+files=$(find "${BUILD}" -type f -name "METADATA")
 
 get_toml() {
   local file="$1"
@@ -31,7 +31,7 @@ except KeyError:
 "
 }
 
-mkdir -p $BUILD/grammars/
+mkdir -p $BUILD/GRAMMARS/
 
 echo $files
 
@@ -43,8 +43,8 @@ for file in $files; do
     if [[ -n "$config_rel" && -n "$nam" ]]; then
         dir=$(dirname "$file")
         config="$dir/$config_rel"
-        outfile="$BUILD/grammars/${nam}.dat"
-        logfile="$BUILD/grammars/${nam}-ace.log"
+        outfile="$BUILD/GRAMMARS/${nam}.dat"
+        logfile="$BUILD/GRAMMARS/${nam}-ace.log"
     
         echo "Compiling into $outfile, log at $logfile with etc/${ACE}/ace"
 
@@ -66,5 +66,5 @@ for file in $files; do
 done
 
 echo "🚀 Successfully created the following grammars"
-find build/grammars -type f -name '*.dat' -size +0c -exec du -h {} + | sort -h
+find build/GRAMMARS -type f -name '*.dat' -size +0c -exec du -h {} + | sort -h
 
