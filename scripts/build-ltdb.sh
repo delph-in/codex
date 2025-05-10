@@ -22,8 +22,9 @@ files=$(find "${BUILD}" local -type f -name "METADATA")
 
 
 for file in $files; do
-  echo "Creating ltdb for: $file"
-  python etc/ltdb/scripts/grm2db.py \
-   --outdir build/dbs "${file}" || true
+    echo "Creating ltdb for: $file"
+    ## only make compatible trees
+    python etc/ltdb/scripts/grm2db.py --checkgrm \
+	   --outdir build/dbs "${file}" || true
 done
 
