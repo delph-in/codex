@@ -65,3 +65,6 @@ for file in $files; do
     echo
 done
 
+echo "🚀 Successfully created the following grammars"
+find build/grammars -type f -name '*.dat' -size +0c -exec du -h {} + | sort -h
+

@@ -26,5 +26,9 @@ for file in $files; do
     ## only make compatible trees
     python etc/ltdb/scripts/grm2db.py --checkgrm \
 	   --outdir build/dbs "${file}" || true
+    echo
 done
 
+echo
+echo "🚀 Successfully created the following grammars"
+find build/dbs -type f -name '*.db' -size +0c -exec du -h {} + | sort -h
