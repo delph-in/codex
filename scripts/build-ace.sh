@@ -48,9 +48,9 @@ for file in $files; do
     
         echo "Compiling into $outfile, log at $logfile with etc/${ACE}/ace"
 
-	echo "# COMPILING WITH:  ace -g $config -G $outfile"  > "$logfile"
+	echo "# COMPILING WITH:  etc/${ACE}/ace -g $config -G $outfile"  > "$logfile"
 	
-        etc/"${ACE}/ace" -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' > "$logfile"
+        etc/"${ACE}/ace" -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' >> "$logfile"
 
         ace_status=${PIPESTATUS[0]}
     
