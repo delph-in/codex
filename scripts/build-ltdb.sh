@@ -32,3 +32,7 @@ done
 echo
 echo "🚀 Successfully created the following grammars"
 find build/dbs -type f -name '*.db' -size +0c -exec du -h {} + | sort -h
+
+echo
+echo "🏗️   Copying to etc/ltdb/web/db/"
+find build/dbs -type f -name '*.dat' -size +0c -exec cp {} etc/ltdb/web/db/ \;
