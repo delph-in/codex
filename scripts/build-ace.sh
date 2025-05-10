@@ -39,7 +39,7 @@ for file in $files; do
         logfile="$BUILD/grammars/${nam}-ace.log"
     
         echo "Compiling into $outfile, log at $logfile"
-    
+	echo "# COMPILING WITH:  ace -g $config -G $outfile"  > "$logfile"
         ace -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' > "$logfile"
         ace_status=${PIPESTATUS[0]}
     
@@ -51,5 +51,6 @@ for file in $files; do
     else
         echo "⚠️ Skipping: missing ACE_CONFIG_FILE or SHORT_GRAMMAR_NAME"
     fi
+    echo
 done
 
