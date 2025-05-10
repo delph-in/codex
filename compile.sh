@@ -28,6 +28,8 @@ echo "🚀 Download grammars"
 
 python scripts/download_grammars.py codex.toml "${BUILD}"
 
+# make directory for 
+mkdir -p etc
 
 # Step 3: Compile with ltdb
 echo "🚀 Compile with ltdb"
