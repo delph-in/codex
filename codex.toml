@@ -32,10 +32,10 @@ vcs="git clone https://github.com/delph-in/erg.git"
 vcs="git clone https://github.com/delph-in/jacy.git"
 
 [porgram]
-vcs="git clone https://github.com/delph-in/PorGram.git"
+vcs="git clone https://github.com/LR-POR/PorGram.git"
 
 [zhong]
-vcs="git clone https://github.com/delph-in/PorGram.git"
+vcs="git clone https://github.com/delph-in/zhong.git"
 
 [abui]
 vcs="git clone https://github.com/delph-in/abui.git"
