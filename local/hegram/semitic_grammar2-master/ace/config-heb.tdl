@@ -1,6 +1,6 @@
 ;;; files to load
 
-grammar-top               := "../hebrew-patch.tdl".
+grammar-top               := "../hebrew-pet.tdl".
 variable-property-mapping := "../semi.vpm".
 preprocessor              := "../repp/vanilla.rpp".
 ;generation-ignore-signs   := "generation.ignore".
