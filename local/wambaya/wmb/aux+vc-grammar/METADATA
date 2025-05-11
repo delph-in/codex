@@ -96,6 +96,6 @@ ISO_CODE="wmb"
 ## File locations of LKB script file and .grm file read by cheap
 ## Paths relative to top of grammar directory
 
-LKB_SCRIPT_FILE="../lkb/script"
+LKB_SCRIPT_FILE="lkb/script"
 CHEAP_GRM_FILE_NAME=""
-ACE_CONFIG_FILE="../ace/config.tdl"
+ACE_CONFIG_FILE="ace/config.tdl"
