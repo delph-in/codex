@@ -27,7 +27,7 @@ uv pip install -r requirements.txt
 echo "🚀 Download grammars"
 
 # DPF commented out
-# python scripts/download_grammars.py codex.toml "${BUILD}"
+python scripts/download_grammars.py codex.toml "${BUILD}"
 
 echo "🩹 Overlay local files"
 
