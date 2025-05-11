@@ -14,7 +14,7 @@ LTDBDIR="${TMPDIR}/ltdb"
 
 # Ensure required repositories are available
 if [ ! -d "${LTDBDIR}" ]; then
-    git clone --branch "tdl-from-grammar" --single-branch  https://github.com/fcbond/ltdb.git "${LTDBDIR}"
+    git clone --branch "flask" --single-branch  https://github.com/fcbond/ltdb.git "${LTDBDIR}"
 fi
 
 ## find METADATA
