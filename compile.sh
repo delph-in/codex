@@ -39,9 +39,14 @@ rsync -rv local/ build/
 mkdir -p etc
 
 # Step 3: Compile with ltdb
-#echo "🚀 Compile with ltdb"
+echo "🚀 Compile with ltdb"
 
 bash scripts/build-ltdb.sh "${BUILD}"
+
+echo
+echo "🏗️   Copying to etc/ltdb/web/db/"
+find "${BUILD}/DBS" -type f -name '*.db' -size +0c -exec cp {} etc/ltdb/web/db/ \;
+
 
 # Step 4: Compile grammars with ace
 echo "🚀 Compile wtih ace"
