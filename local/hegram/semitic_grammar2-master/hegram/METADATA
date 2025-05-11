@@ -99,4 +99,4 @@ ISO_CODE="heb"
 LKB_SCRIPT_FILE="../lkb/heb-script"
 # or big-heb-script
 CHEAP_GRM_FILE_NAME=""
-ACE_CONFIG_FILE="../ace/heb-config.tdl"
+ACE_CONFIG_FILE="../ace/config-heb.tdl"
