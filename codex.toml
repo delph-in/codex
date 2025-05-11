@@ -25,8 +25,8 @@ metadata = "only if not in grammar"
 vcs = "http://bultreebank.org/wp-content/uploads/2017/11/bg.zip"
 size = "small"
 
-[erg]
-vcs="git clone https://github.com/delph-in/erg.git"
+#[erg]
+#vcs="git clone https://github.com/delph-in/erg.git"
 
 [jacy]
 vcs="git clone https://github.com/delph-in/jacy.git"

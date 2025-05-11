@@ -1,11 +1,11 @@
 ;;; files to load
 
-grammar-top               := "../arabic-pet.tdl".
+grammar-top               := "../wambaya-pet.tdl".
 variable-property-mapping := "../semi.vpm".
 preprocessor              := "../repp/vanilla.rpp".
 ;generation-ignore-signs   := "generation.ignore".
 generation-trigger-rules  := "../trigger.mtr".
-version                   := "../Version-ara.lsp".
+version                   := "../Version.lsp".
 parse-node-labels         := "../labels.tdl".
 
 quickcheck-code           := qc.tdl.
@@ -47,5 +47,4 @@ enable-icons := yes.
 mrs-icons-list := ICONS LIST.
 icons-left := CLAUSE.
 icons-right := TARGET.
-
 
