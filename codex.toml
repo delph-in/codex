@@ -1,11 +1,9 @@
 [srg]
-#vcs = "git clone https://github.com/delph-in/srg.git"
-#trb = "wget https://github.com/delph-in/srg/releases/download/v0.3.6/0.3.6-release.zip"
+vcs = "git clone https://github.com/delph-in/srg.git"
+trb = "wget https://github.com/delph-in/srg/releases/download/v0.3.6/0.3.6-release.zip"
 
-size = "medium"
-
-#[norsource]
-#vcs = "https://www.nb.no/sbfil/leksikalske_databaser/20140619_norsource_1.0.tar.gz"
+[norsource]
+vcs = "git clone https://github.com/Regdili-NTNU/NorSource.git"
 
 [rrg]
 vcs = "https://www.coli.uni-saarland.de/~tania/rrg/rrg-20110615.tgz"
@@ -18,18 +16,15 @@ vcs = "https://faculty.washington.edu/ebender/wmb/wmb.tgz"
 
 [hegram]
 vcs = "https://cl.haifa.ac.il/projects/HeGram/semitic_grammar2-master.zip"
-size = "small"
-metadata = "only if not in grammar"
 
 [burger]
 vcs = "http://bultreebank.org/wp-content/uploads/2017/11/bg.zip"
-size = "small"
 
-#[erg]
-#vcs="git clone https://github.com/delph-in/erg.git"
+[erg]
+vcs="git clone https://github.com/delph-in/erg.git"
 
-#[jacy]
-#vcs="git clone https://github.com/delph-in/jacy.git"
+[jacy]
+vcs="git clone https://github.com/delph-in/jacy.git"
 
 [porgram]
 vcs="git clone https://github.com/LR-POR/PorGram.git"
@@ -43,8 +38,8 @@ vcs="git clone https://github.com/delph-in/abui.git"
 [krg]
 vcs="git clone https://github.com/bond-lab/krg.git"
 
-#[indra]
-#vcs = "git clone https://github.com/davidmoeljadi/INDRA.git"
+[indra]
+vcs = "git clone https://github.com/davidmoeljadi/INDRA.git"
 
 [yue]
 vcs = "git clone https://github.com/neosome/yue.git" 

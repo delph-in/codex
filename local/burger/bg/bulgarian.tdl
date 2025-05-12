@@ -1,0 +1,1858 @@
+;; -*- Mode: tdl; coding: mule-utf-8; -*-
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Grammar of Bulgarian
+;;; created at:
+;;;     Sat Jan 30 20:19:09 UTC 2010
+;;; based on Matrix customization system version of:
+;;;     Fri Jan 29 09:38:10 UTC 2010
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Matrix Type Addenda
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+cat :+ [HC-INIT bool,
+	HS-INIT bool].
+
+event-or-ref-index :+ [ SF iforce ].
+
+;; Redefined sign !! to allow third value for INFLECTED
+sign := basic-sign &
+  [ SYNSEM synsem,
+    ARGS list,
+    INFLECTED luk ].
+
+;;;;;;;;;;;;;;
+;;; Features
+;;;;;;;;;;;;;;
+
+;;; punctuation
+
+synsem :+ [PUNCT punctuation].
+
+basic_punctuation := avm.
+
+punctuation := basic_punctuation &
+[ L-PUNCT punct_mark,
+R-PUNCT punct_mark ].
+
+punct_mark := avm &
+[PSF iforce].
+
+punct_mark_plus := punct_mark.
+no_punct := punct_mark.
+
+period := punct_mark_plus.
+question_mark := punct_mark_plus.
+exclamative_mark := punct_mark_plus.
+
+punct-prop := iforce.
+punct-comm := iforce.
+punct-ques := iforce.
+
+no-punct-mark := punctuation &
+[ L-PUNCT no_punct,
+R-PUNCT no_punct ].
+
+punct-hd := head.
+
+
+;;; redefinition of word (as in Portuguese)
+
+;word := word-or-lexrule & nocoord &
+; [ SYNSEM.PUNCT.R-PUNCT no_punct ].
+
+
+;;; Direction
+
+direction := *top*.
+dir := direction.
+inv := direction.
+
+;;; Person
+
+person := *top*.
+1st := person.
+2nd-or-3rd := person.
+2nd := 2nd-or-3rd.
+3rd := 2nd-or-3rd.
+non-applicable := person.
+
+;;; Number
+
+number := *top*.
+singular := number.
+plural := plural-or-count.
+count := plural-or-count.
+plural-or-count := number.
+
+;;; Gender
+
+gender := *top*.
+masculine := gender.
+feminine := gender.
+neuter := gender.
+
+png :+ [GENDER gender,
+	     NUMBER number,
+	     PERSON person].
+
+;
+ref-ind :+ [DEF bool].
+
+;;; Form
+
+
+form := *top*.
+vform := form.
+nonfinite := vform.
+finite := vform.
+da-form := nonfinite.
+participle := nonfinite.
+gerund := nonfinite.
+deverbal := nonfinite.
+
+
+
+;;; Aspect
+
+perfective-or-imperfective := aspect.
+perfective := perfective-or-imperfective.
+imperfective := perfective-or-imperfective.
+
+;;; Voice
+
+event :+ [SVOICE voice ].
+
+;;; pronoun types
+pro-sort := semsort.
+norm-pro := pro-sort.
+refl-pro := pro-sort.
+
+;;;;;;;;;;;;;;;;;;;;
+;;; Direct-Inverse
+;;;;;;;;;;;;;;;;;;;;
+
+;;; Direct-inverse scale
+
+dir-inv-scale := canonical-synsem.
+
+;;; Relations
+
+future_rel := relation.
+nominalize-relation := arg1-relation.
+
+;;;;;;;;;;;;;;;;;;;
+;;; Lexical Types
+;;;;;;;;;;;;;;;;;;;
+
+;;; Nouns
+
+;;; Common nouns
+
+
+time-sort := non-human.
+other-non-human := non-human.
+weekday := time-sort.
+partday := time-sort.
+clock := time-sort.
+noun-sort := semsort.
+human := noun-sort.
+non-human := noun-sort.
+
+
+basic-common-noun := basic-noun-lex & no-hcons-lex-item & basic-one-arg &
+  [ INFLECTED - ,
+    SYNSEM [ LOCAL [ CAT [ HEAD nonpro-noun-hd & [MOD <>],
+			 VAL [ SPR < #spr &
+				     [ LOCAL.CAT.HEAD det ] >,
+			       SUBJ < anti-synsem >,
+			       SPEC < > ]],
+		   AGR.PNG #png & [ PERSON 3rd ],
+		   CONT [ HOOK [ INDEX #ind & [ PNG #png ],
+				 XARG #ind ],
+			  RELS <! relation !> ] ],
+	     NON-LOCAL [ SLASH 0-dlist ] ],
+    ARG-ST < #spr > ].
+
+
+
+ basic-common-noun-masc := basic-common-noun &
+ [ SYNSEM.LOCAL [AGR.PNG.GENDER masculine,
+				   CONT.HOOK.INDEX.SORT noun-sort] ].
+
+basic-common-noun-masc-intr := basic-common-noun-masc &
+ [ SYNSEM.LOCAL.CAT [ VAL.COMPS < >,
+				            HEAD.FORM compound-not-reg ]].
+
+ basic-common-noun-masc-tr := basic-common-noun-masc &
+ [ SYNSEM.LOCAL.CAT [ VAL.COMPS <[]>,
+					     HEAD.FORM compound-not-reg ]].
+
+ basic-common-noun-intr := basic-common-noun &
+  [ SYNSEM.LOCAL.CAT [ VAL.COMPS < >,
+						HEAD.FORM compound-not-reg ]].
+
+  basic-common-noun-tr := basic-common-noun &
+  [ SYNSEM.LOCAL.CAT [ VAL.COMPS <[]>,
+				             HEAD.FORM compound-not-reg ] ].
+
+;;;; singularia tantum nouns
+
+only-sing-common-noun := basic-noun-lex & no-hcons-lex-item &
+  [ INFLECTED + ,
+    SYNSEM [ LOCAL [ CAT [ HEAD nonpro-noun-hd & [MOD <>],
+			 VAL [ SPR < #spr &
+				     [ LOCAL.CAT.HEAD det ] >,
+			       SUBJ < anti-synsem >,
+			       SPEC < > ]],
+		   AGR.PNG #png & [ PERSON 3rd,
+						     NUMBER singular ],
+		   CONT [ HOOK [ INDEX #ind & [ PNG #png ],
+				 XARG #ind ],
+			  RELS <! relation !> ] ],
+	     NON-LOCAL non-local-none ], 
+    ARG-ST < #spr > ].
+  
+basic-only-sing-noun-intr := only-sing-common-noun &
+  [ SYNSEM.LOCAL.CAT [ VAL.COMPS < >,
+						HEAD.FORM compound-not-reg ]].
+
+
+
+;;; for words like day, month, year, when they modify events
+
+
+basic-temporal-noun := basic-noun-lex & no-hcons-lex-item &
+  [ INFLECTED - ,
+    SYNSEM [ LOCAL [ CAT [ HEAD nonpro-noun-hd & [MOD <[LOCAL intersective-mod & [CAT.HEAD +nv,
+																			      CONT.HOOK.INDEX #index] ]>],
+					VAL [ SPR < #spr & [ LOCAL.CAT.HEAD det ] >,
+						   SPEC < > ] ],
+		   AGR.PNG #png & [ PERSON 3rd ],
+		   CONT [ HOOK [ INDEX #ind & [ PNG #png ],
+						XARG #ind ],
+				RELS <! relation !> ] ],
+	     NON-LOCAL non-local-none,
+	     LKEYS.KEYREL.ARG1 #index ], 
+    ARG-ST < #spr > ].
+
+
+ basic-temporal-noun-masc := basic-temporal-noun &
+ [ SYNSEM.LOCAL [AGR.PNG.GENDER masculine,
+				   CONT.HOOK.INDEX.SORT time-sort,
+				   CAT [ HEAD.MOD <[LOCAL.CAT.HEAD verb]>,
+					      VAL.SUBJ <> ] ] ].
+
+basic-temporal-noun-masc-intr := basic-temporal-noun-masc &
+ [ SYNSEM.LOCAL.CAT.VAL.COMPS < > ].
+
+;;; days of weeks, months, etc
+
+
+;;; clock
+
+basic-clock-noun := basic-common-noun &
+[SYNSEM.LOCAL.CONT.HOOK.INDEX.SORT clock ].
+
+
+ basic-clock-noun-masc-intr :=  basic-clock-noun &
+ [ SYNSEM.LOCAL [ CAT.VAL.COMPS < >,
+				   AGR.PNG.GENDER masculine] ].
+
+;;; weekdays
+
+ basic-weekday-noun := basic-temporal-noun &
+ [SYNSEM.LOCAL [CONT.HOOK.INDEX.SORT weekday,
+				   CAT.HEAD.MOD <[LOCAL.CAT.HEAD verb]>] ].
+
+ basic-week-noun-masc-intr :=  basic-weekday-noun &
+ [ SYNSEM.LOCAL [ CAT.VAL.COMPS < >,
+				   AGR.PNG.GENDER masculine] ].
+
+;;; parts of the day and night
+
+
+basic-partday-noun := basic-temporal-noun &
+ [SYNSEM [ LOCAL [ CAT [ HEAD.MOD <[LOCAL intersective-mod & [ CAT [ HEAD noun,
+														VAL [SUBJ <anti-synsem>,
+																COMPS <>,
+																SPR <[]> ] ],
+															CONT.HOOK [ INDEX #ind & [SORT weekday ],
+																		LTOP #ltop ] ] ]>,
+						   VAL.SUBJ < anti-synsem > ],
+				  CONT.HOOK [ INDEX.SORT partday,
+							    LTOP #ltop ] ],
+			LKEYS.KEYREL.ARG1 #ind ] ].
+
+
+
+basic-partday-noun-fem-intr :=  basic-partday-noun &
+ [ SYNSEM.LOCAL [ CAT.VAL.COMPS < >,
+				   AGR.PNG.GENDER feminine ] ].
+
+
+ ;;; compound nouns
+
+;;; discussion: at the moment the distinction is only the type, a compound-relation should be added
+
+#|
+basic-compound-lex := basic-noun-lex & no-hcons-lex-item &
+  [ INFLECTED - ,
+    SYNSEM [ LOCAL [ CAT [ HEAD nonpro-noun-hd & [MOD <>],
+			 VAL [ SPR < #spr &
+				     [ LOCAL.CAT.HEAD det ] >,
+			       SUBJ < anti-synsem >,
+			       SPEC < > ]],
+		   AGR.PNG #png & [ PERSON 3rd ],
+		   CONT [ HOOK [ INDEX #ind & [ PNG #png ],
+				 XARG #ind ] ] ],
+	     NON-LOCAL non-local-none ], 
+    ARG-ST < #spr > ].
+|#
+
+#|
+compound-relation := noun-arg1-relation.
+basic-compound-lex := basic-common-noun &
+[SYNSEM [ LOCAL [CONT.HOOK.INDEX #ind0,
+				   CAT.VAL.COMPS.FIRST.LOCAL.CONT.HOOK.INDEX #ind1 ],
+		  LKEYS.KEYREL compound-relation & [ ARG0 #ind0,
+										    ARG1 #ind1 ] ] ].
+  basic-compound-common-noun-tr := basic-compound-lex &
+  [ SYNSEM.LOCAL.CAT.VAL.COMPS <[]>].
+  |#
+
+compound := nonpro-noun-hd.
+
+basic-compound-lex := basic-common-noun &
+[ SYNSEM.LOCAL.CAT.HEAD compound & [FORM compound-init ] ].
+
+
+;;; relational nouns
+
+
+relational-relation := noun-arg1-relation.
+
+basic-relational-lex := basic-common-noun &
+[SYNSEM [ LOCAL [CONT.HOOK.INDEX #ind0,
+				   CAT.VAL.COMPS.FIRST.LOCAL.CONT.HOOK.INDEX #ind1 ],
+		  LKEYS.KEYREL relational-relation & [ ARG0 #ind0,
+										    ARG1 #ind1 ] ] ].
+
+ basic-relational-common-prep-tr := basic-relational-lex &
+  [ SYNSEM.LOCAL.CAT.VAL.COMPS <[]>].
+
+
+
+
+;;; Adjectives
+
+;;; *** Change to matrix.tdl: stop making index of adj same as index of mod
+
+basic-mod-adj-lex := basic-adjective-lex & norm-ltop-lex-item.
+
+
+
+adjective-lex := basic-int-mod-adj-lex & attrib-or-pred-lex-item &
+[ SYNSEM.NON-LOCAL non-local-none ].
+
+
+typical-adjective-lex := adjective-lex &
+[ INFLECTED - ,
+SYNSEM [ LOCAL [CAT [ HEAD nonpro-adj-hd & [PRD - ] &
+			  [MOD <[LOCAL [CAT [HEAD noun,
+								VAL.SPR <[]>],
+							AGR [PNG #png,
+								  DEF - ]]]>], 
+		     VAL.SUBJ <  >,
+		     POSTHEAD - ],
+	       CONT.HOOK.INDEX #index,
+	       AGR.PNG #png],
+	  LKEYS.KEYREL.ARG0 #index ] ].
+
+
+;;; comparative adjective
+
+comp-adjective-lex := attrib-or-pred-lex-item & norm-ltop-lex-item &
+[ INFLECTED - ,
+SYNSEM [ LOCAL [CAT [ HEAD nonpro-adj-hd & 
+								[MOD < [ LOCAL intersective-mod & [CAT [HEAD noun,
+																	VAL.SPR <[]>],
+																CONT.HOOK.INDEX #arg,
+																AGR [PNG #png,
+																	 DEF - ] ] ]>], 
+						VAL.SUBJ <  >,
+						POSTHEAD - ],
+				CONT [ HOOK.INDEX #index,
+						RELS <! event-relation,
+								relation & [PRED "compar_rel"]!>],
+				AGR.PNG #png],
+	  LKEYS.KEYREL event-relation & [ARG0 #index,
+								      ARG1 #arg],
+	  NON-LOCAL non-local-none] ]. 
+
+;;; predicative adjective
+
+#|
+pred-adjective-lex := adjective-lex &
+[ INFLECTED - ,
+SYNSEM [ LOCAL [CAT [ HEAD nonpro-adj-hd & 
+						[MOD <[LOCAL.CAT [HEAD verb & [AUX - ],
+											VAL [ SUBJ <[LOCAL [ CAT.HEAD noun,
+																AGR.PNG #png] ]>,
+												    COMPS <>,
+												    SPR < anti-synsem >] ] ]>],
+						VAL.SUBJ <> ], 
+				  CONT.HOOK.INDEX #index,
+				  AGR.PNG #png],
+	  LKEYS.KEYREL.ARG0 #index ] ].
+|#
+
+
+;;; discussion - I made the secondary predication scopal but no hcons appear, it seems not to inherit from its parents
+
+adj :+
+[PRD bool].
+
+pred-adjective-lex := scopal-mod-lex & norm-hook-lex-item & single-rel-lex-item &
+[ INFLECTED - ,
+SYNSEM [ LOCAL [CAT [ HEAD nonpro-adj-hd & [PRD + ] &
+							[MOD <[LOCAL [ CAT [HEAD verb & [AUX - ],
+											VAL [ SUBJ <[LOCAL [ CAT.HEAD noun,
+																AGR.PNG #png,
+																CONT.HOOK.INDEX #arg] ]>,
+												    COMPS <>,
+												    SPR < anti-synsem >] ],
+											CONT.HOOK.LTOP #ltop ] ]>],
+										
+						VAL.SUBJ <> ], 
+				  CONT.HOOK [ INDEX #index,
+							    XARG #arg ],
+				  AGR.PNG #png],
+	        LKEYS.KEYREL event-relation & [ARG0 #index,
+									    ARG1 #ltop ] ] ].
+
+
+
+;;; numerals
+
+basic-numeral-lex := single-rel-lex-item &
+  [ SYNSEM [ LOCAL.CAT.HEAD num,
+	     LKEYS.KEYREL event-relation ]].
+
+basic-mod-num-lex := basic-numeral-lex & norm-ltop-lex-item.
+basic-int-mod-num-lex := basic-mod-num-lex & intersective-mod-lex.
+
+numeral-lex := basic-int-mod-num-lex & attrib-or-pred-lex-item &
+[ SYNSEM [ NON-LOCAL non-local-none,
+		    LOCAL.CONT.HOOK.INDEX.SORT num-sort ] ].
+
+;;;;; sort
+
+num-sort := semsort.
+one-sort := num-sort.
+several-sort := num-sort.
+
+typical-numeral-lex := numeral-lex &
+[ INFLECTED - ,
+SYNSEM [ LOCAL [CAT [ HEAD num & 
+			  [MOD <[LOCAL [CAT [HEAD noun,
+								VAL [ SPR <[]>,
+									   COMPS <> ] ],
+							AGR [PNG #png,
+								  DEF - ]]]>], 
+		     VAL [ SUBJ <  >,
+				COMPS < > ],
+		     POSTHEAD - ],
+	       CONT.HOOK.INDEX #index,
+	       AGR.PNG #png],
+	  LKEYS.KEYREL.ARG0 #index ] ].
+
+;;; numerals
+
+
+cardinal-adj-lex := typical-numeral-lex &
+[ SYNSEM [ LOCAL [ CAT [HEAD.MOD <[LOCAL.AGR.PNG.NUMBER plural-or-count]>,
+				   VAL [ SUBJ <>,
+						SPR <>] ],
+				    CONT.RELS <! #keyrel !> ],
+		    LKEYS.KEYREL #keyrel ] ].
+
+;;; probata
+
+cardinal-adj-clock-lex := numeral-lex & fully-inflected-lexeme &
+[ SYNSEM [ LOCAL [CAT [ HEAD.MOD <[LOCAL [CAT [HEAD noun,
+											VAL [ SPR <[]>,
+												  COMPS <> ] ],
+									CONT.HOOK.INDEX.SORT clock,
+									AGR [PNG [NUMBER singular,
+												GENDER masculine],
+										   DEF + ]]]>, 
+						VAL [ SUBJ <  >,
+							COMPS < >,
+							SPR <> ],
+						POSTHEAD - ],
+				CONT [ HOOK.INDEX #index,
+					     RELS <! #keyrel !> ],
+				AGR.DEF - ],
+	           LKEYS.KEYREL #keyrel & [ARG0 #index ] ] ].
+
+
+
+
+
+cardinal-one-adj-lex := typical-numeral-lex &
+[ SYNSEM [ LOCAL [ CAT [HEAD.MOD <[LOCAL.AGR.PNG #png & [NUMBER singular]]>,
+						VAL [ SUBJ <>,
+							   SPR <>] ],
+				    CONT.RELS <! #keyrel !>,
+				    AGR.PNG #png],
+		    LKEYS.KEYREL #keyrel ] ].
+
+ordinal-adj-lex := typical-numeral-lex &
+[ SYNSEM [ LOCAL [ CAT [HEAD.MOD <[LOCAL.AGR.PNG #png]>,
+						VAL [ SUBJ <>,
+							   SPR <>] ],
+				    CONT.RELS <! #keyrel !>,
+				    AGR.PNG #png],
+		    LKEYS.KEYREL #keyrel ] ].
+
+
+
+
+
+
+;;;;PERSONAL PRONOUNS and common types
+
+adp :+ [FORM pform].
+
+pform := form.
+dative := pform.
+locative := pform.
+predic := pform.
+other := pform.
+passive-prep := pform.
+
+
+nonpro-head := head.
+nonpro-adj-hd := nonpro-head & adj.
+nonpro-noun-hd := nonpro-head & noun.
+nonpro-adv-hd := nonpro-head & adv.
+
+pro-head := head.
+pro-adj-hd := pro-head & adj.
+pro-noun-hd := pro-head & noun.
+pro-adv-hd := pro-head & adv.
+
+pro-det-hd := pro-head & det.
+
+
+pro-lexeme := lex-item &
+[ SYNSEM [ LOCAL [ CAT [ HEAD pro-head,
+		       VAL [ SUBJ < >,
+			     COMPS < > ] ],
+		 CONT.HOOK.INDEX #agr,
+		 AGR #agr ],
+	   NON-LOCAL.SLASH 0-dlist ] ].
+
+
+
+case := sort.
+
+nom := case.
+acc := case.
+dat := case.
+
+noun :+
+[ CASE case ].
+
+;;;it seems that anti-synsem has to come down to personal pronouns
+
+pro-noun := pro-lexeme & 
+[SYNSEM.LOCAL.CAT [ HEAD noun & [ MOD < > ],
+					   VAL.SPR < anti-synsem > ]].
+
+pro-adj := pro-lexeme & [SYNSEM.LOCAL.CAT.HEAD adj,
+			 INFLECTED - ].
+
+pro-adv := pro-lexeme & [SYNSEM.LOCAL.CAT.HEAD adv,
+			 INFLECTED + ].
+
+
++nj :+ nform.
+
+nform := form.
+
+compound-init := compound-or-not.
+compound-not := compound-or-not.
+
+compound-or-not := nform.
+
+compound-or-not-reg := compound-or-not & regular.
+compound-reg := compound-or-not-reg.
+compound-not-reg := compound-or-not-reg.
+
+
+clitic-or-regular := nform.
+clitic := clitic-or-regular.
+regular := clitic-or-regular.
+
+pro-type := nform.
+
+personal := pro-type.
+possessive := pro-type.
+interrogative := pro-type.
+indefinite := pro-type.
+collective := pro-type.
+demonstrative := pro-type.
+relative := pro-type.
+negative := pro-type.
+
+pers-reg := personal & compound-not-reg.
+pers-clit := personal & clitic.
+
+poss-reg := possessive & compound-not-reg.
+poss-clit := possessive & clitic.
+
+persrefl-reg := personal & compound-not-reg.
+persrefl-clit := personal & clitic.
+
+possrefl-reg := possessive & compound-not-reg.
+possrefl-clit := possessive & clitic.
+
+interrog-reg := interrogative & compound-not-reg.
+indef-reg := indefinite & compound-not-reg.
+collect-reg := collective & compound-not-reg.
+demonstr-reg := demonstrative & compound-not-reg.
+relative-reg := relative & compound-not-reg.
+negat-reg := negative & compound-not-reg.
+
+
+;;; Relations
+
+;; for ne and nito
+
+negation-relation := arg1-ev-relation.
+
+
+relative-relation := pronoun-relation.
+interrogative-relation := pronoun-relation.
+
+pronoun-relation := relation.
+demonstrative-relation := quant-relation & pronoun-relation.
+indefinite-relation := quant-relation & pronoun-relation.
+collective-relation := quant-relation & pronoun-relation.
+negative-relation := quant-relation & pronoun-relation.
+possessive-relation := arg12-relation & pronoun-relation &
+[ARG1 ref-ind,
+ARG2 ref-ind ].
+
+
+;;; Personal pronouns
+
+basic-pers-pro-noun := pro-noun &
+[SYNSEM [ LOCAL.CONT [ HOOK.INDEX.SORT pro-sort,
+		       HCONS <! !> ],
+	  NON-LOCAL non-local-none ] ].
+
+pers-pro-noun := basic-pers-pro-noun &
+ [SYNSEM.LOCAL.CONT.HOOK.INDEX.SORT norm-pro ].
+
+reg-pers-pro-noun := pers-pro-noun & norm-hook-lex-item &
+ [INFLECTED -,
+ SYNSEM [ LOCAL [ CAT.HEAD.FORM pers-reg,
+		    CONT.RELS <! #keyrel !> ],
+	    LKEYS.KEYREL #keyrel & [ PRED "pronoun_rel" ] ] ].
+
+
+acc-pers-pro-noun := pers-pro-noun & 
+[SYNSEM.LOCAL.CAT.HEAD.CASE acc].
+
+clitic-lexeme := pro-lexeme &
+[SYNSEM.LOCAL [ CAT.HEAD.FORM clitic,
+		AGR #agr,
+		CONT.HOOK.INDEX #agr ] ].
+
+pers-clitic-lexeme := clitic-lexeme &
+ [SYNSEM.LOCAL [CAT.HEAD.FORM pers-clit, 
+				    CONT.RELS <! !> ] ].
+
+poss-clitic-lexeme := clitic-lexeme &
+ [SYNSEM.LOCAL.CAT.HEAD.FORM poss-clit ].
+
+
+dat-pers-pro-noun := pers-pro-noun & [SYNSEM.LOCAL.CAT.HEAD.CASE dat].
+
+;;; Personal reflexives
+
+pers-refl-pro-noun := basic-pers-pro-noun &
+ [SYNSEM.LOCAL.CONT.HOOK.INDEX.SORT refl-pro ].
+
+pers-refl-acc-pro-noun := pers-refl-pro-noun &
+[SYNSEM.LOCAL.CAT.HEAD.CASE acc].
+
+reg-pers-refl-acc-pro-noun := pers-refl-acc-pro-noun & norm-hook-lex-item & fully-inflected-lexeme &
+ [SYNSEM [ LOCAL [ CAT.HEAD.FORM pers-reg,
+		    CONT.RELS <! #keyrel !> ],
+	    LKEYS.KEYREL #keyrel ] ].
+
+pers-refl-acc-pro-noun-clitic-lexeme := pers-refl-acc-pro-noun & pers-clitic-lexeme & word &
+[INFLECTED -,
+ SYNSEM. LOCAL.CAT.HEAD.FORM pers-clit ].
+
+pers-refl-dat-pro-noun-clitic-lexeme := pers-refl-pro-noun & pers-clitic-lexeme &
+[SYNSEM.LOCAL.CAT.HEAD [ CASE dat,
+							FORM pers-clit ] ].
+
+
+;;; Possessives
+
+;;; Possessive reflexives
+
+poss-refl-pro-adj-reg := poss-pro-adj-reg &
+[SYNSEM [ LOCAL [ CAT.HEAD.FORM poss-reg,
+				   CONT.HOOK.INDEX.SORT refl-pro],
+		   LKEYS.KEYREL.ARG2.PNG.NUMBER singular ] ].
+
+
+
+poss-refl-pro-adj-clit := poss-pro-adj-clit &
+[SYNSEM.LOCAL [CAT.HEAD.FORM poss-clit, 
+				 CONT.HOOK.INDEX.SORT refl-pro ] ].
+
+;;; Possessives
+
+poss-pro-adj := pro-adj &
+[SYNSEM [ LOCAL [ CONT [ RELS <! #keyrel & [LBL #lbl,
+					    PRED "possessive_rel",
+					    ARG1 #modind,
+					    ARG2 #ind] !> ,
+					HOOK.INDEX #ind & [SORT pro-sort],
+			      HCONS <! !> ],
+		  CAT.HEAD.MOD < [ LOCAL intersective-mod &
+					 [ CONT.HOOK [ LTOP #lbl,
+						       XARG #modind] ] ]> ],
+	  LKEYS.KEYREL #keyrel & possessive-relation,
+	  NON-LOCAL non-local-none ] ].
+
+
+poss-pro-adj-reg := poss-pro-adj & 
+[SYNSEM.LOCAL [ CAT [ HEAD [ FORM poss-reg,
+							MOD <[LOCAL [ CAT [ HEAD noun,
+							VAL.SPR <[]>],
+								AGR [ PNG [NUMBER #number,
+								GENDER #gender],
+									DEF -  ] ] ]>],
+					     POSTHEAD - ],
+		AGR.PNG [NUMBER #number,
+			 GENDER #gender] ] ].
+
+poss-pro-adj-reg-1st := poss-pro-adj-reg &
+ [SYNSEM.LKEYS.KEYREL.ARG2.PNG [ PERSON 1st,
+				 NUMBER singular ] ].
+
+poss-pro-adj-reg-2nd := poss-pro-adj-reg &
+ [SYNSEM.LKEYS.KEYREL.ARG2.PNG [ PERSON 2nd,
+				 NUMBER singular ] ].
+
+poss-pro-adj-reg-3rd-masc := poss-pro-adj-reg &
+ [SYNSEM.LKEYS.KEYREL.ARG2.PNG [ PERSON 3rd,
+									NUMBER singular,
+									GENDER masculine] ].
+
+poss-pro-adj-reg-3rd-fem := poss-pro-adj-reg &
+ [SYNSEM.LKEYS.KEYREL.ARG2.PNG [ PERSON 3rd,
+									NUMBER singular,
+									GENDER feminine] ].
+
+poss-pro-adj-reg-3rd-neut := poss-pro-adj-reg &
+ [SYNSEM.LKEYS.KEYREL.ARG2.PNG [ PERSON 3rd,
+									NUMBER singular,
+									GENDER neuter] ].
+
+;;; I put CONT.HOOK.XARG.DEF+ due to the fact that adjectives do not have this feature themselves
+
+poss-pro-adj-clit := poss-pro-adj & clitic-lexeme &
+[SYNSEM.LOCAL.CAT [ HEAD [ MOD <[LOCAL [CAT [HEAD +nj,
+												VAL.SPR <[]>],
+											CONT.HOOK.XARG.DEF + ] ]>,
+							FORM poss-clit ],
+					POSTHEAD + ] ].
+
+
+
+;;; clitic-head phrases - need of CLINIT bool (mu go dadoh, ya vzeh, mu blagodarih)
+
+cat :+ [CLINIT bool,
+           DOCLIT bool,
+	   IOCLIT bool].
+
+;;; supertype for clitic-head
+
+basic-head-initial := basic-binary-headed-phrase &
+  [ HEAD-DTR #head,
+    NON-HEAD-DTR #non-head,
+    ARGS < #head, #non-head > ].
+
+
+
+;;; Verbs
+
+head :+ [ FORM form ].
+
+verb :+ [AUX bool,
+	      TAM tam,
+	      FORM vform,
+	      MCLASS mclass,
+	      VOICE voice].
+
+
+personal-v := finite.
+impersonal-v := finite.
+
+mclass := *top*.
+
+;;; to put also second types under second, and third types under third for better generalization
+
+#|
+first := mclass.
+first1 := first.
+first2 := first.
+second := mclass.
+second1 := mclass.
+second2 := mclass.
+second3 := mclass.
+third := mclass.
+third1 := mclass.
+be := mclass.
+would := mclass.
+nedej := mclass.
+impers := mclass.
+|#
+
+1-or-2-or-3 := mclass.
+other-class := mclass.
+
+1-or-2 := 1-or-2-or-3.
+2-or-3 := 1-or-2-or-3.
+1-or-3 := 1-or-2-or-3.
+
+first := 1-or-2 & 1-or-3.
+second := 1-or-2 & 2-or-3.
+third := 2-or-3 & 1-or-3.
+
+first1 := first.
+first2 := first.
+
+second1 := second.
+second2 := second.
+second3 := second.
+
+third1 := third.
+
+be := other-class.
+would := other-class.
+nedej := other-class.
+impers := other-class.
+
+
+present := tense.
+future := tense.
+future-past := tense.
+aorist-or-imperfect := tense.
+imperfect := aorist-or-imperfect.
+aorist := aorist-or-imperfect.
+
+indicative := mood.
+imperative := mood.
+conditional := mood.
+
+voice := *top*.
+
+
+active := voice.
+passive := voice.
+
+
+verb-lex := lex-item &
+    [SYNSEM.LOCAL.CAT [ HEAD verb,
+			VAL.SPR ocons & < anti-synsem >,
+			HC-LIGHT - ] ].
+
+
+main-verb-lex := verb-lex & basic-verb-lex &
+  [INFLECTED -, 
+SYNSEM.LOCAL [ CAT [ HEAD.AUX - ,
+					   VAL [ SPEC < >,
+						SUBJ < #subj > ] ],
+                   CONT.HOOK [ INDEX.SF #sf,
+			       XARG #xarg ] ],
+    ARG-ST.FIRST #subj &
+                 [ LOCAL [ CAT [VAL [ SPR < >,
+							COMPS < >],
+						HEAD noun ],
+                           CONT.HOOK.INDEX #xarg & [ SF #sf ]  ] ] ].
+
+
+;;; Aspect lexemes
+
+perfective-or-imperfective-lexeme := main-verb-lex & 
+[ SYNSEM.LOCAL [CAT.HEAD.TAM.ASPECT #aspect,
+		CONT.HOOK.INDEX.E.ASPECT #aspect ]].
+
+perfective-lexeme := perfective-or-imperfective-lexeme & 
+[ SYNSEM.LOCAL.CAT.HEAD.TAM.ASPECT perfective].
+
+imperfective-lexeme := perfective-or-imperfective-lexeme & 
+[ SYNSEM.LOCAL.CAT.HEAD.TAM.ASPECT imperfective].
+
+;;; Intransitive verbs
+
+intransitive-verb-lex := main-verb-lex & intransitive-lex-item &
+  [ SYNSEM [ LOCAL.CAT.VAL.COMPS < > ],
+    ARG-ST.FIRST [ LOCAL.CAT.HEAD noun ] ].
+
+v_-_p_lex := intransitive-verb-lex  & perfective-lexeme.
+
+v_-_i_lex := intransitive-verb-lex & imperfective-lexeme.
+
+;;; Transitive verbs
+
+
+;;; Transitive verbs with NP as complement
+
+v_np_p_lex := v_np_lex & perfective-lexeme.
+
+v_np_i_lex := v_np_lex & imperfective-lexeme.
+
+
+;;; Transitive verbs with PP as complement
+
+v_pp_p_lex := v_pp_lex & perfective-lexeme.
+
+v_pp_i_lex := v_pp_lex & imperfective-lexeme.
+
+
+;;; Transitive verbs with CLCHE as complement
+
+v_che_p_lex := v_che_lex & perfective-lexeme.
+
+v_che_i_lex := v_che_lex & imperfective-lexeme.
+
+
+;;; Transitive verbs with DALI as complement
+
+v_dali_p_lex := v_dali_lex & perfective-lexeme.
+
+v_dali_i_lex := v_dali_lex & imperfective-lexeme.
+
+
+;;; Transitive verbs with DA-FORM as CP complement (subject relaxation) - iskam
+
+v_da-cp_p_lex := v_da_cp_lex & perfective-lexeme.
+
+v_da-cp_i_lex := v_da_cp_lex & imperfective-lexeme.
+
+
+;;; Transitive verbs with DA-FORM as VP complement (subject identity) - zapochvam, prodalzhavam
+
+v_da-vp_p_lex := v_da_vp_lex & perfective-lexeme.
+
+v_da-vp_i_lex := v_da_vp_lex & imperfective-lexeme.
+
+
+;;; Diransitive verbs with DA-FORM as VP complement (subject-subject identity) - obeshtaja na njakogo da napravja neshto
+
+v_da1-vp_p_lex := v_da_ditr1arg_lex & perfective-lexeme.
+
+v_da1-vp_i_lex := v_da_ditr1arg_lex & imperfective-lexeme.
+
+
+;;; Diransitive verbs with DA-FORM as VP complement (object-subject identity) - ubedja njakogo da napravi neshto
+
+v_da2-vp_p_lex := v_da_ditr2arg_lex & perfective-lexeme.
+
+v_da2-vp_i_lex := v_da_ditr2arg_lex & imperfective-lexeme.
+
+
+;;; Ditransitive verbs with DA-FORM-SE-VERBS as VP complement (subject identity) - opitvam se
+
+v_se-da-vp_p_lex := v_da_ditr1arg-se_lex & perfective-lexeme.
+
+v_se-da-vp_i_lex :=  v_da_ditr1arg-se_lex & imperfective-lexeme.
+
+
+;;; Ditransitive verbs with NP and PP as complements
+
+v_np-pp_nom_lex := ditransitive-lex-item & v_np-pp_lex.
+v_np-pp_p_lex := v_np-pp_nom_lex & perfective-lexeme.
+
+v_np-pp_p1-1_lex := v_np-pp_p_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS first1].
+
+v_np-pp_p3-1_lex := v_np-pp_p_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third1].
+
+v_np-pp_i_lex := v_np-pp_nom_lex & imperfective-lexeme.
+
+
+v_np-pp_i3_lex := v_np-pp_i_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third].
+
+v_np-pp_i3-1_lex := v_np-pp_i_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third1].
+
+
+v_np-pp_i3_lex := v_np-pp_i_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third].
+
+v_np-pp_p2-2_lex := v_np-pp_p_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS second2].
+
+;;;; smyatam njakogo za neshto
+
+v_np-pp_adj_lex := clausal-third-arg-ditrans-lex-item & v_np-pp_lex.
+v_np-pp_p-adj_lex := v_np-pp_adj_lex & perfective-lexeme.
+v_np-pp_p2-adj-2_lex := v_np-pp_p-adj_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS second2].
+
+v_np-pp_i-adj_lex := v_np-pp_adj_lex & imperfective-lexeme.
+v_np-pp_i3-adj_lex := v_np-pp_i-adj_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third].
+
+;;; probata izglezhdam na njakogo njakakav
+
+clausal-third-arg-ditrans-lex-non-ref-item := basic-three-arg &
+   [ ARG-ST < [ LOCAL.CONT.HOOK.INDEX ref-ind & #ind1 ],
+	      [ LOCAL.CONT.HOOK.INDEX #ind2 ],
+	      [ LOCAL.CONT.HOOK.LTOP #larg ] >,
+     SYNSEM [ LOCAL.CONT.HCONS <! qeq & [ HARG #harg,
+					  LARG #larg ] !>,
+	      LKEYS.KEYREL [ ARG1 #ind1,
+			     ARG2 #ind2,
+			     ARG3 #harg ] ] ].
+
+v_adj-pp-final_lex := clausal-third-arg-ditrans-lex-non-ref-item & v_adj-pp_lex.
+v_adj-pp_i_lex := v_adj-pp-final_lex & imperfective-lexeme.
+
+v_adj-pp_i3_lex := v_adj-pp_i_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS third].
+
+
+
+v_da1-vp_p1-1_lex := v_da1-vp_p_lex & [SYNSEM.LOCAL.CAT.HEAD.MCLASS first1].
+
+
+;; Ditransitive verbs with DALI-FORM-SE-VERBS  - chudja se dali idva
+
+v_se-dali_p_lex := v_se-dali_lex & perfective-lexeme.
+
+v_se-dali_i_lex :=  v_se-dali_lex & imperfective-lexeme.
+
+;; Ditransitive verbs with QUES-FORM-SE-VERBS  - chudja se koy idva
+
+v_se-ques_p_lex := v_se-ques_lex & perfective-lexeme.
+
+v_se-ques_i_lex := v_se-ques_lex & imperfective-lexeme.
+
+;;; SE-transitives
+
+v_se_p_lex := transitive-verb-lex & perfective-lexeme & 
+[ SYNSEM.LOCAL.CAT.VAL.COMPS < anti-synsem & [LOCAL.CONT.HOOK.INDEX.SORT refl-pro] >].
+
+v_se_i_lex := transitive-verb-lex & imperfective-lexeme & 
+[ SYNSEM.LOCAL.CAT.VAL.COMPS < anti-synsem & [LOCAL.CONT.HOOK.INDEX.SORT refl-pro] >].
+
+;;; SE-ditransitives
+
+v_se-pp_p_lex := ditransitive-lex-item & perfective-lexeme & [ SYNSEM.LOCAL.CAT.VAL.COMPS < anti-synsem & [LOCAL.CONT.HOOK.INDEX.SORT refl-pro] >].
+
+v_se-pp_i_lex := ditransitive-lex-item & imperfective-lexeme & [ SYNSEM.LOCAL.CAT.VAL.COMPS < anti-synsem & [LOCAL.CONT.HOOK.INDEX.SORT refl-pro] >].
+
+
+
+;;; General entries for transitives and ditransitives
+
+
+transitive-verb-lex := main-verb-lex & basic-two-arg &
+  [ ARG-ST < [ LOCAL.CONT.HOOK.INDEX ref-ind & #ind1 ],
+	      #comp & [ LOCAL [ CAT.VAL.COMPS < > ] ]> ,
+     SYNSEM [ LOCAL.CAT.VAL.COMPS < #comp >,
+			LKEYS.KEYREL [ ARG1 #ind1 ] ] ].
+
+
+v_np_lex := transitive-verb-lex & transitive-lex-item &
+ [SYNSEM.LOCAL [ CAT.VAL.COMPS <[ LOCAL [ CAT [ HEAD noun & 
+						 [ CASE acc ],
+					      VAL.SPR < > ],
+					CONT.HOOK.INDEX.SF #sf ] ]>,
+		 CONT.HOOK.INDEX.SF #sf ] ].
+
+
+v_pp_lex := transitive-verb-lex & basic-two-arg-no-hcons &
+[SYNSEM [ LOCAL.CAT.VAL.COMPS <[LOCAL.CAT.HEAD adp]>,
+	  LKEYS.KEYREL.ARG2 #ind2 ],
+ ARG-ST < [ ],
+	  [ LOCAL.CONT.HOOK.INDEX #ind2 ] > ].
+
+v_compl_lex := transitive-verb-lex &
+[SYNSEM [ LOCAL [ CAT.VAL.COMPS <[LOCAL [ CAT.HEAD comp,
+					  CONT.HOOK.LTOP #cltop ] ]>,
+		  CONT.HCONS <! qeq & [ HARG #harg, LARG #cltop ] !> ],
+	  LKEYS.KEYREL.ARG2 #harg ] ].
+
+v_che_lex := v_compl_lex &
+[SYNSEM.LOCAL.CAT.VAL.COMPS.FIRST.LOCAL.CAT.HEAD normcomp ].
+
+
+v_dali_lex := v_compl_lex &
+[SYNSEM.LOCAL.CAT.VAL.COMPS.FIRST.LOCAL.CAT.HEAD partcomp ].
+
+
+;;; proba another type of ditransitive for 'se'
+
+
+
+v_se-ques_lex := ditransitive-verb-lex &
+[SYNSEM [ LOCAL [ CAT.VAL.COMPS < anti-synsem & [LOCAL.CONT.HOOK.INDEX.SORT refl-pro], 
+				  [LOCAL [ CAT [ HEAD verb,
+						 VAL [SUBJ <>,
+						      COMPS <>,
+						      SPR < anti-synsem >] ],
+					   CONT.HOOK [ LTOP #cltop,
+						       INDEX.SF ques] ],
+				   NON-LOCAL.QUE 1-dlist]>,
+		  CONT.HCONS <! qeq & [ HARG #harg, LARG #cltop ] !> ],
+	  LKEYS.KEYREL.ARG2 #harg ] ].
+
+
+
+
+v_se-dali_lex := ditransitive-verb-lex &
+[SYNSEM [ LOCAL [ CAT.VAL.COMPS < anti-synsem &
+				  [LOCAL.CONT.HOOK.INDEX.SORT refl-pro], 
+				  [LOCAL [ CAT.HEAD comp,
+					   CONT.HOOK.LTOP #cltop ] ]>,
+		  CONT.HCONS <! qeq & [ HARG #harg, LARG #cltop ] !> ],
+	  LKEYS.KEYREL.ARG2 #harg ] ].
+
+
+v_seem_lex :=  basic-two-arg & main-verb-lex &
+  [ ARG-ST < [ ],
+	      #comp & [ LOCAL [ CAT.VAL.COMPS < > ] ]> ,
+     SYNSEM [ LOCAL [ CAT.VAL.COMPS < #comp & 
+				    [LOCAL.CONT.HOOK.LTOP #ctop ] >,
+		      CONT.HCONS <! qeq & [ HARG #arg, LARG #ctop ] !> ],
+	      LKEYS.KEYREL [ ARG1 #arg ] ] ].
+
+
+;;; DA-verbs - cp (iskam da otida - relaxed to subject) and vp (pochvam da iskam - the same subject)
+
+v_da_control_lex := transitive-verb-lex &
+[SYNSEM [ LOCAL [ CAT.VAL.COMPS <[LOCAL [ CAT [ HEAD verb & [ FORM da-form],
+												    VAL.COMPS <> ],
+					                                               CONT.HOOK [ LTOP #cltop ] ] ] >,
+		  CONT [ HCONS <! [HARG #harg, LARG #cltop ] !> ] ],
+	  LKEYS.KEYREL.ARG2 #harg ] ].
+
+
+v_da_cp_lex := v_da_control_lex &
+ [SYNSEM.LOCAL.CAT.VAL.COMPS <[LOCAL.CAT.VAL.SUBJ < > ] > ].
+
+ 
+v_da_vp_lex := transitive-verb-lex &
+ [SYNSEM.LOCAL [ CAT.VAL.COMPS <[LOCAL [ CAT.VAL.SUBJ < synsem >,
+					 CONT.HOOK.XARG #xarg ] ] >,
+		 CONT.HOOK.XARG #xarg ] ].
+
+
+ditransitive-verb-lex := main-verb-lex & basic-three-arg &
+  [ ARG-ST < [ LOCAL.CONT.HOOK.INDEX ref-ind & #ind1 ],
+	     #comp1 & [ LOCAL.CONT.HOOK.INDEX.SF #sf ],
+	      #comp2 & [ LOCAL [ CAT.VAL.COMPS < > ] ] > ,
+     SYNSEM [ LOCAL [ CAT.VAL.COMPS <#comp1,#comp2 >,
+		      CONT.HOOK.INDEX.SF #sf ],
+	      LKEYS.KEYREL [ ARG1 #ind1 ] ] ].
+
+v_da_ditr-control_lex := ditransitive-verb-lex &
+[SYNSEM [ LOCAL [ CAT.VAL.COMPS <[],[LOCAL [ CAT [ HEAD verb &
+					     [ FORM da-form] ],
+					  CONT.HOOK [ LTOP #cltop ] ] ] >,
+		  CONT [ HCONS <! [ LARG #cltop ] !> ] ] ] ].
+
+v_da_ditr-control3arg_lex := v_da_ditr-control_lex &
+[SYNSEM [ LOCAL [CAT.VAL.COMPS.FIRST.LOCAL [ CAT [ HEAD +np,
+						   VAL.SPR < > ],
+					     CONT.HOOK.INDEX #ind2 ],
+		 CONT [ HCONS <! [HARG #harg ] !> ] ],
+	  LKEYS.KEYREL [ARG2 #ind2, 
+			ARG3 #harg ] ] ].
+
+
+v_da_ditr1arg_lex := v_da_ditr-control3arg_lex &
+ [SYNSEM.LOCAL [ CAT.VAL.COMPS <[LOCAL.CAT.HEAD adp & [FORM dative]],[LOCAL [ CAT.VAL.SUBJ < synsem >,
+																				  CONT.HOOK.XARG #ind1 ] ] >,
+		 CONT.HOOK.XARG #ind1 ] ].
+
+
+v_da_ditr1arg-se_lex := v_da_ditr-control_lex &
+ [SYNSEM [ LOCAL [ CAT.VAL.COMPS < anti-synsem & 
+				   [LOCAL.CONT.HOOK.INDEX.SORT refl-pro,
+				    OPT - ],
+				  [LOCAL [ CAT.VAL.SUBJ < synsem >,
+					 CONT.HOOK.XARG #xarg ] ] >,
+		 CONT [HOOK.XARG #xarg,
+		       HCONS <![HARG #harg]!>]],
+	   LKEYS.KEYREL.ARG2 #harg ]].
+
+v_da_ditr2arg_lex := v_da_ditr-control3arg_lex &
+ [SYNSEM.LOCAL [ CAT.VAL.COMPS <[LOCAL.CONT.HOOK.INDEX #ind2],
+										[LOCAL [ CAT.VAL.SUBJ < synsem >,
+				   CONT.HOOK.XARG #ind2 ] ] > ]].
+
+
+
+v_np-pp_lex := basic-three-arg &
+[ SYNSEM.LOCAL.CAT.VAL.COMPS #comps,
+    ARG-ST.REST #comps & < [ LOCAL.CAT [HEAD noun,
+					VAL.SPR <>] ],
+			   [ LOCAL.CAT [HEAD adp,
+					VAL.COMPS <>]]> ].
+
+;;; probata
+
+v_adj-pp_lex := basic-three-arg &
+[ SYNSEM.LOCAL.CAT.VAL.COMPS #comps,
+    ARG-ST.REST #comps & < [ LOCAL.CAT [HEAD adp,
+										VAL.COMPS <>] ],
+						 [ LOCAL.CAT [HEAD adj,
+										VAL.COMPS <>]]> ].
+
+
+
+;;; Auxiliaries
+
+aux-lex := verb-lex &
+[ SYNSEM.LOCAL.CAT.HEAD.AUX + ].
+
+; Somewhat surprisingly, this inherits from basic-two-arg, so
+; that the non-local features are amalgamated from subj, the
+; lexical verb complement, but not the other complements, if any.
+
+arg-comp-aux := verb-lex & basic-two-arg &
+  [ SYNSEM.LOCAL [ CAT [ HEAD.MOD < >,
+			 VAL [ SUBJ < #subj >,
+                             COMPS < #comps . #vcomps >,
+                             SPEC < > ] ],
+                   CONT.HOOK.XARG #xarg ],
+    ARG-ST < #subj &
+             [ LOCAL [ CONT.HOOK.INDEX #xarg,
+                       CAT [ VAL [ SPR < >,
+                                   COMPS < > ],
+                             HEAD noun ] ] ],
+             #comps &
+             [ LOCAL [ CAT [ HEAD verb,
+				VAL [ SUBJ < [ NON-LOCAL non-local-none ] >,
+                                   COMPS #vcomps ],
+                             HEAD verb ],
+                       CONT.HOOK.XARG #xarg ] ] > ].
+
+
+
+arg-lex-aux := arg-comp-aux & 
+[ SYNSEM.LOCAL.CAT.VAL.COMPS.FIRST lex-synsem].
+
+
+;;; the type restrics the participle selection to active aorist participles
+
+be-aux := arg-lex-aux & raise-sem-lex-item &
+[SYNSEM [ LOCAL.CAT [ HEAD [ AUX +,
+			                                MOD < >,
+							MCLASS be],
+		                               VAL [ COMPS.FIRST [ LOCAL [CAT.HEAD.FORM participle,
+												       AGR.E.TENSE aorist ],
+										OPT - ] ] ],
+			MODIFIED notmod ],
+INFLECTED -].
+
+
+will-or-da-aux := arg-lex-aux & fully-inflected-lexeme & raise-sem-lex-item & 
+[ SYNSEM.LOCAL.CAT [ HEAD. AUX +,
+					   VAL.COMPS.FIRST [ LOCAL [ CAT.HEAD [ FORM finite,
+															MOD <> ],
+												AGR.E.TENSE present ],
+										OPT - ],
+						HC-INIT + ] ].
+
+
+
+;;;; modals
+
+;;; to unblock if we want phr-synsem requirement back
+
+#|
+modal-verb-lex := arg-phr-aux & norm-sem-lex-item &
+[SYNSEM [ LOCAL [ CAT [ HEAD verb & [ AUX +],
+			VAL.COMPS.FIRST phr-synsem & [LOCAL [CAT [HEAD.FORM da-form,
+								  VAL.COMPS <>],
+					       CONT.HOOK.LTOP #ctop] ],
+			HC-INIT + ],	  
+		  CONT [RELS <! #keyrel !>,
+			HCONS <!qeq & [HARG #arg, LARG #ctop]!>]],
+	  LKEYS.KEYREL #keyrel & [ ARG1 #arg] ] ].
+|#
+
+
+modal-verb-lex := arg-phr-aux & norm-sem-lex-item &
+[SYNSEM [ LOCAL [ CAT [ HEAD verb & [ AUX +],
+						VAL.COMPS.FIRST.LOCAL [CAT [HEAD.FORM da-form,
+													     VAL.COMPS <> ],
+												CONT.HOOK.LTOP #ctop ],
+			HC-INIT + ],	  
+		  CONT [RELS <! #keyrel !>,
+			HCONS <!qeq & [HARG #arg, LARG #ctop]!>]],
+	  LKEYS.KEYREL #keyrel & [ ARG1 #arg] ] ].
+
+arg-phr-aux := arg-comp-aux.
+
+;;; to unblock if we want phr-synsem requirement back (together with the type for modal verbs)
+
+#|
+arg-phr-aux := arg-comp-aux &
+[ SYNSEM.LOCAL.CAT.VAL.COMPS.FIRST phr-synsem].
+|#
+
+
+ne-aux := arg-comp-aux & fully-inflected-lexeme & norm-hook-lex-item &
+[SYNSEM [ LOCAL [ CAT [VAL.COMPS <[LOCAL [ CAT [ HEAD verb,
+						 VAL.SUBJ < synsem >],
+					   CONT.HOOK [LTOP #cltop ,
+						      INDEX #index],
+					   AGR #agr] ] >,
+		       HC-INIT +],
+		  CONT.HCONS <! qeq  & [HARG #harg, LARG #cltop ] !>,
+		  AGR #agr],
+	  LKEYS.KEYREL [ ARG0 #index,
+			 ARG1  #harg ] ] ].
+
+
+;;; Copula
+
+
+copula-lex := aux-lex & basic-two-arg &
+[SYNSEM [ LOCAL [CAT [ HEAD [ MOD < > ,
+			     MCLASS be ],
+		      VAL [ COMPS < [ LOCAL [ CAT [ VAL[SPR <>,
+							COMPS<>]],
+									CONT.HOOK.XARG #xarg ],
+						OPT - ] >,
+			    SUBJ <[LOCAL [ CAT [ HEAD +nd,
+						 VAL[SPR <>,
+						     COMPS <>]],
+					   CONT.HOOK.INDEX #xarg ] ]>] ],
+		 CONT.HOOK [ INDEX #agr,
+			     XARG #xarg ],
+		 AGR #agr ],
+	  MODIFIED notmod ],
+ INFLECTED -].
+
+
+;;;past copula
+
+past-copula-lex := copula-lex &
+[SYNSEM [ LOCAL.AGR.E.TENSE aorist,
+                    NON-LOCAL non-local-none] ].
+
+;;;present copula
+
+pres-copula-lex := copula-lex &
+[SYNSEM [ LOCAL [ AGR.E.TENSE present,
+				CAT [ HS-INIT - ] ],
+		    NON-LOCAL non-local-none ] ].
+
+
+; Not inheriting from basic-verb-lex, so need to put in
+; event-relation by hand here.
+
+arg-comp-aux-with-pred := arg-comp-aux & hcons-lex-item &
+  [ SYNSEM [ LOCAL.CONT.HCONS <! qeq &
+                                 [ HARG #harg,
+                                   LARG #larg ] !>,
+             LKEYS.KEYREL event-relation &
+                          [ ARG1 #harg ] ],
+    ARG-ST < [  ],
+             [ LOCAL.CONT.HOOK.LTOP #larg ] > ].
+
+;;; Others
+
+;;; Determiners
+;;; SPEC is non-empty, and already specified by basic-determiner-lex.
+
+;;; Matrix override: we want some determiners (like "whose") to allow
+;;; more than one rel in RELS.
+
+basic-determiner-lex := norm-hook-lex-item &
+  [ SYNSEM [ LOCAL [ CAT [ HEAD det,
+			   VAL.SPEC.FIRST.LOCAL.CONT.HOOK [ INDEX #ind,
+							    LTOP #larg ]],
+		     CONT [ HCONS <! qeq &
+				   [ HARG #harg,
+				     LARG #larg ] !> ] ],
+	     LKEYS.KEYREL quant-relation &
+		   [ ARG0 #ind,
+		     RSTR #harg ] ] ].
+
+bg-determiner-lex := basic-determiner-lex & basic-zero-arg &
+[ SYNSEM [ LOCAL [CAT [ HEAD.MOD < >,
+			VAL [  SPR <>,
+				COMPS < >,
+			      SUBJ < >,
+			      SPEC <[LOCAL [CAT.HEAD +nr,
+								AGR [PNG #png,
+									DEF - ] ] ]>] ],
+		  AGR.PNG #png ] ]].
+
+determiner-lex := bg-determiner-lex.
+
+nito-lex := determiner-lex & fully-inflected-lexeme &
+[SYNSEM [ LOCAL.CONT.RELS <! #keyrel !>,
+		   LKEYS.KEYREL #keyrel & [ PRED "negation_rel" ] ] ].
+							 
+demonstrative-pron-lex := pro-lexeme &
+[SYNSEM [ LOCAL [ CAT.HEAD.FORM demonstr-reg,
+				   CONT.RELS <! #keyrel !> ],
+		   LKEYS.KEYREL #keyrel & [ PRED "demonstrative_rel" ] ] ].
+
+indefinite-pron-lex := pro-lexeme &
+[SYNSEM [ LOCAL [CAT.HEAD.FORM indef-reg,
+				   CONT.RELS <! #keyrel !> ],
+		   LKEYS.KEYREL #keyrel & [ PRED "indefinite_rel" ] ] ].
+
+collective-pron-lex := pro-lexeme &
+[SYNSEM [ LOCAL [ CAT.HEAD.FORM collect-reg,
+				     CONT.RELS <! #keyrel !> ],
+		   LKEYS.KEYREL #keyrel & [ PRED "collective_rel" ] ] ].
+
+negative-pron-lex := pro-lexeme &
+[SYNSEM [ LOCAL [CAT.HEAD.FORM negat-reg,
+				 CONT.RELS <! #keyrel !> ],
+		   LKEYS.KEYREL #keyrel & [ PRED "negative_rel" ] ] ].
+
+interrogative-pron-lex := pro-lexeme &
+[INFLECTED -,
+SYNSEM.LOCAL [ CAT.HEAD.FORM interrog-reg,
+				CONT.HOOK.INDEX.SF ques ] ].
+
+
+;;;Adverbs
+
+;; as with adjectives, we have to redefine the Matrix type to avoid identifying
+;; the index of the adverb and what it modifies.
+
+basic-adverb-lex := norm-ltop-lex-item & single-rel-lex-item &
+  [ SYNSEM [ LOCAL.CAT.HEAD adv,
+	     LKEYS.KEYREL event-relation ]].
+
+
+adverb-lex := fully-inflected-lexeme &
+[SYNSEM.LOCAL.CAT [HEAD.MOD <[LOCAL.CAT.VAL.COMPS <> ]>,
+					   VAL [SUBJ <>,
+						     SPR <>,
+						     COMPS <>] ] ].
+
+v-adverb-lex := adverb-lex &
+[SYNSEM [ LOCAL.CAT.HEAD.MOD <[LOCAL.CAT.HEAD verb]>,
+	  NON-LOCAL non-local-none ]].
+
+v-ques-adverb-lex := v-adverb-lex & pro-adv &
+[SYNSEM.LOCAL [CAT [HEAD.FORM interrog-reg,
+					    POSTHEAD - ], 
+				CONT [ HOOK.INDEX.SF ques,
+					      HCONS <! !> ] ] ].
+
+kolko-ques-adverb-lex := adverb-lex & pro-adv &
+[SYNSEM [ LOCAL [CAT [ HEAD [ MOD <[LOCAL.CAT.HEAD +nvjr ]>,
+							     FORM interrog-reg ],
+						POSTHEAD - ], 
+				CONT [ HOOK.INDEX.SF ques,
+					       HCONS <! !> ] ],
+		   NON-LOCAL non-local-none ] ].
+
+;;; probata pochti
+
+almost-adv-lex :=  adverb-lex &
+[SYNSEM [ LOCAL.CAT.HEAD.MOD <[LOCAL.CAT.HEAD +nvjrpcdm]>,
+	  NON-LOCAL non-local-none ]].
+
+;;; Prepositions
+
+
+;;;; i put slash and que to be empty to block analyses like - gradinata v
+;;; i put heads noun and adverb to allow - do chisto, na chisto, do gore
+
+prep-lex := fully-inflected-lexeme & basic-one-arg &
+ [ SYNSEM [ LOCAL.CAT [ HEAD adp,
+		      VAL [ SPR < >,
+			    COMPS < #comp & [LOCAL.CAT [HEAD +njr,
+						VAL [SPR <>,
+						     COMPS <>] ],
+				     OPT - ] >,
+			    SUBJ < > ],
+		      HC-INIT + ],
+		      NON-LOCAL [SLASH 0-dlist,
+						QUE 0-dlist ] ],
+   ARG-ST < #comp > ].
+
+
+;;; Particles
+
+non-noun-hd := head.
+
+;;; MATRIX override - how else can we add to an underspecified type?
++vjrp := +vjrpo & +vjrpm & +vjrpd & +vjrpc & +nvjrp & non-noun-hd
+"""Disjuntive type for verbs, adjectives, adverbs and adpositions (and parthead).""".
+
+parthead := non-noun-hd & 
+[ FORM partform ].
+
+
+partform := form.
+
+
+partcomp := parthead & comp.
+normcomp := comp.
+
+part-lex := lex-item & non-affix-bearing &
+[ SYNSEM [ LOCAL[ CAT [ HEAD parthead,
+                     VAL [ SUBJ <>,
+			   SPR <>,
+			   COMPS <> ] ],
+		 CONT [ RELS <! !>,
+			HCONS <! !> ] ],
+	   NON-LOCAL non-local-none ] ].
+
+
+ 
+
+;;; Polar question particle li
+
+;;; coming as a sentence marker and after np
+polar-ques-part-lex := part-lex &
+[SYNSEM.LOCAL [CAT [ HEAD.MOD <[LOCAL intersective-mod & [CAT [HEAD +nv,
+					VAL [SUBJ <>,
+					     SPR olist,
+					     COMPS <>]],
+				    CONT.HOOK #hook & [INDEX.SF ques]]]>,
+		     POSTHEAD + ],
+	      CONT.HOOK #hook] ].
+
+;;; coming after a lexical verb
+
+polar-quest-verb-part-lex := part-lex &
+[SYNSEM.LOCAL.CAT [ HEAD.MOD <lex-synsem & [LOCAL intersective-mod &
+						[CAT.HEAD verb,
+						 CONT.HOOK.INDEX.SF ques]]>] ].
+
+;;; probata
+
+polar-mod-ques-part-lex := part-lex &
+[SYNSEM.LOCAL [ CAT [ HEAD.MOD <[LOCAL intersective-mod & [CAT [HEAD verb,
+					VAL [SUBJ <>,
+					     SPR olist,
+					     COMPS <>]],
+				    CONT.HOOK #hook & [INDEX.SF ques]]]> ],
+		CONT.HOOK #hook] ].
+
+
+;;; Vacuous reflexive (usmihvam se)
+
+#|
+refl-part-lex := part-lex & fully-inflected-lexeme &
+[ SYNSEM.LOCAL [ CAT [ HEAD.FORM reflform,
+		       VAL.SPR < anti-synsem > ],
+		 CONT [ RELS <! !>,
+			HCONS <! !> ] ] ].
+|#
+
+;;; Pronouns
+
+pron-lex := lex-item.
+
+;;; Numerals
+
+num-lex := lex-item.
+
+;;; Clitics
+
+clitic-lex := lex-item.
+pron-clitic-lex := pron-lex & clitic-lex.
+
+; We treat question particles as complementizers.
+; Here is the lexical type for complementizers.
+
+
+
+; Subtype for question particles. Constrains SF to ques.
+
+; comp-head-phrase requires things that are [ HEAD comp ].
+
+; comp-head-phrase := basic-head-1st-comp-phrase & head-final &
+;  [ SYNSEM.LOCAL.CAT.HEAD comp ].
+
+;;;;;;;;;;;;;;;;;;
+;;; Coordination
+;;;;;;;;;;;;;;;;;;
+
+coord-phrase :+
+  [ SYNSEM.NON-LOCAL #nonloc,
+    LCOORD-DTR.SYNSEM.NON-LOCAL #nonloc,
+    RCOORD-DTR.SYNSEM.NON-LOCAL #nonloc ].
+
+bottom-coord-phrase :+
+  [ SYNSEM.NON-LOCAL #nonloc,
+    NONCONJ-DTR.SYNSEM.NON-LOCAL #nonloc ].
+
+;;; Coordination Strategy 1
+
+n1-top-coord-rule := basic-n-top-coord-rule & monopoly-top-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+n1-mid-coord-rule := basic-n-mid-coord-rule & monopoly-mid-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+n1-bottom-coord-rule := conj-first-bottom-coord-rule & n-bottom-coord-phrase &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+;;; Coordination Strategy 1
+
+np1-top-coord-rule := basic-np-top-coord-rule & monopoly-top-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+np1-mid-coord-rule := basic-np-mid-coord-rule & monopoly-mid-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+np1-bottom-coord-rule := conj-first-bottom-coord-rule & np-bottom-coord-phrase &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+;;; Coordination Strategy 1
+
+vp1-top-coord-rule := basic-vp-top-coord-rule & monopoly-top-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+vp1-mid-coord-rule := basic-vp-mid-coord-rule & monopoly-mid-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+vp1-bottom-coord-rule := conj-first-bottom-coord-rule & vp-bottom-coord-phrase &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+;;; Coordination Strategy 1
+
+s1-top-coord-rule := basic-s-top-coord-rule & monopoly-top-coord-rule &
+  [ SYNSEM.LOCAL [ CAT.HS-INIT #hs,
+		   COORD-STRAT "1" ],
+    LCOORD-DTR.SYNSEM.LOCAL.CAT.HS-INIT #hs ].
+
+s1-mid-coord-rule := basic-s-mid-coord-rule & monopoly-mid-coord-rule &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+s1-bottom-coord-rule := conj-first-bottom-coord-rule & s-bottom-coord-phrase &
+  [ SYNSEM.LOCAL.COORD-STRAT "1" ].
+
+;; subordinating conjunction
+
+
+
+sform := form.
+che := sform.
+ako := sform.
+zada := sform.
+
+subord-conjunction-lex := basic-subord-conjunction-lex &
+ [ SYNSEM [ LOCAL [ CAT.VAL.COMPS < [ LOCAL.CONT.HOOK.LTOP #cltop ] >,
+		    CONT.RELS <! #keyrel !> ],  
+	    LKEYS.KEYREL #keyrel &
+			    [ L-HNDL #cltop ],
+	    NON-LOCAL.SLASH 0-dlist ] ].
+
+subord-mod-conjunction-lex := subord-conjunction-lex & fully-inflected-lexeme &
+  [ SYNSEM.LOCAL.CAT [ HEAD conj & 
+			    [ MOD <[LOCAL scopal-mod &
+					  [ CAT.VAL [SUBJ <>,
+						    COMPS <>,
+						    SPR <anti-synsem >]]]> ],
+		       HC-INIT +,
+		       VAL [ COMPS <[LOCAL.CAT [HEAD verb,
+					      VAL [SUBJ <>,
+						   COMPS <>,
+						   SPR < anti-synsem >]],
+				     OPT - ]>,
+			     SUBJ < >,
+			     SPR < > ] ] ].
+
+
+complementizer-lex-item := raise-sem-lex-item & basic-one-arg &
+  [ SYNSEM.LOCAL.CAT [ HEAD comp &
+						[ MOD < > ],
+					VAL [ SPR < anti-synsem >,
+							SUBJ < >,
+						COMPS < #comp & [OPT - ] > ] ],
+    ARG-ST < #comp &
+             [ LOCAL.CAT [ MC +,
+                           HEAD verb,
+                           VAL [ SUBJ < >,
+                                 COMPS < > ] ],
+	       NON-LOCAL non-local-none ] >].
+
+
+
+q-compl-lex-item := complementizer-lex-item & fully-inflected-lexeme &
+[ SYNSEM.LOCAL [CONT.HOOK.INDEX.SF ques,
+		CAT.HEAD partcomp]].
+
+
+;;; relatives
+
+
+relative-pro-noun-lex := pro-lexeme &
+[ SYNSEM.LOCAL [ CAT [ HEAD pro-adj-hd &
+							[ MOD < >,
+					                  FORM relative-reg ] ],
+				    CONT. HCONS <! !> ],
+  INFLECTED - ].
+
+
+
+norm-conj-lex := conj-lex &
+[SYNSEM.NON-LOCAL non-local-none].
+
+
+
+
+;;; Passives
+
+basic_passive_verb_lr := lex-rule &
+[ARGS <[SYNSEM.LOCAL [ CAT [ HEAD #head & verb,
+			     VAL [COMPS [ FIRST.LOCAL 
+						  [CAT.HEAD noun,
+						   CONT.HOOK.INDEX ref-ind 
+							    & #ind2] ] ] ],
+			CONT.HOOK [ LTOP #hand,
+				    INDEX #index ] ] ] >,
+ SYNSEM.LOCAL [ CAT [ HEAD #head & [ VOICE passive ],
+		      VAL [SUBJ <[LOCAL [ CAT [ HEAD noun &
+						     [ CASE nom ],
+						VAL.SPR < > ],
+					  CONT.HOOK.INDEX #ind2 ] ] > ] ],
+		CONT [ HOOK [ LTOP #hand,
+			      INDEX #index,
+			      XARG #ind2 ] ] ],
+ C-CONT [ RELS <! !>,
+	  HCONS <! !> ] ].
+
+normal_passive_lr := basic_passive_verb_lr & lexeme-to-word-rule &
+[ ARGS < [ SYNSEM.LOCAL.CAT.HEAD.MOD < [ LOCAL.CONT.HOOK.INDEX #ind2 ] > ] >,
+  SYNSEM.LOCAL.CONT.HOOK.XARG #ind2 ].
+
+se_passive_lr := basic_passive_verb_lr & lexeme-to-lexeme-rule.
+
+
+;;; probata Deverbals
+
+basic-deverbal-swap-lr := lex-rule &
+[ARGS <[INFLECTED na,
+	SYNSEM.LOCAL [ CAT [ HEAD verb & 
+				  [ FORM deverbal,
+				    VOICE active,
+				    TAM.ASPECT imperfective],
+			     VAL.SUBJ.FIRST.LOCAL [CAT.HEAD noun,
+						   CONT.HOOK.INDEX #ind1 ] ],
+		       CONT.HOOK [ LTOP #hand ] ] ] >,
+ INFLECTED +,
+ SYNSEM.LOCAL [ CAT [ HEAD noun & [ MOD < > ],
+		      VAL [SUBJ < anti-synsem>,
+			   SPR < [ LOCAL.CAT.HEAD det] >,
+			   COMPS.FIRST.LOCAL [ CAT [ HEAD adp & 
+										[ FORM passive-prep ],
+										VAL [COMPS < >,
+											   SUBJ <>,
+											   SPR <>] ],
+					       CONT.HOOK.INDEX #ind1 ]  ] ] ],
+ C-CONT [ HOOK [ LTOP #lbl,
+		 INDEX #index & ref-ind ],
+	  RELS <! [ PRED "nominalize_rel",
+		    LBL #lbl,
+		    ARG0 #index,
+		    ARG1 #harg ] !>,
+	  HCONS <! qeq & [HARG #harg, LARG #hand ] !> ] ].
+
+
+;;; four and five arguments
+
+basic-five-arg := lex-item &
+  [ ARG-ST < [ NON-LOCAL [ SLASH [ LIST #smiddle4, LAST #slast ],
+                                                REL [ LIST #rmiddle4, LAST #rlast ],
+                                                QUE [ LIST #qmiddle4, LAST #qlast ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #sfirst, LAST #smiddle1 ],
+                                               REL [ LIST #rfirst, LAST #rmiddle1 ],
+                                               QUE [ LIST #qfirst, LAST #qmiddle1 ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #smiddle1, LAST #smiddle2 ],
+                                               REL [ LIST #rmiddle1, LAST #rmiddle2 ],
+                                               QUE [ LIST #qmiddle1, LAST #qmiddle2 ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #smiddle2, LAST #smiddle3 ],
+                                               REL [ LIST #rmiddle2, LAST #rmiddle3 ],
+                                               QUE [ LIST #qmiddle2, LAST #qmiddle3 ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #smiddle3, LAST #smiddle4 ],
+                                               REL [ LIST #rmiddle3, LAST #rmiddle4 ],
+                                               QUE [ LIST #qmiddle3, LAST #qmiddle4 ] ] ]>,
+    SYNSEM.NON-LOCAL [ SLASH [ LIST #sfirst, LAST #slast ],
+                                            REL [ LIST #rfirst, LAST #rlast ],
+                                            QUE [ LIST #qfirst, LAST #qlast ] ] ].
+
+
+basic-four-arg := lex-item &
+  [ ARG-ST < [ NON-LOCAL [ SLASH [ LIST #smiddle3, LAST #slast ],
+                                                REL [ LIST #rmiddle3, LAST #rlast ],
+                                                QUE [ LIST #qmiddle3, LAST #qlast ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #sfirst, LAST #smiddle1 ],
+                                               REL [ LIST #rfirst, LAST #rmiddle1 ],
+                                               QUE [ LIST #qfirst, LAST #qmiddle1 ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #smiddle1, LAST #smiddle2 ],
+                                               REL [ LIST #rmiddle1, LAST #rmiddle2 ],
+                                               QUE [ LIST #qmiddle1, LAST #qmiddle2 ] ] ],
+                     [ NON-LOCAL [ SLASH [ LIST #smiddle2, LAST #smiddle3 ],
+                                               REL [ LIST #rmiddle2, LAST #rmiddle3 ],
+                                               QUE [ LIST #qmiddle2, LAST #qmiddle3 ] ] ]>,
+    SYNSEM.NON-LOCAL [ SLASH [ LIST #sfirst, LAST #slast ],
+                                            REL [ LIST #rfirst, LAST #rlast ],
+                                            QUE [ LIST #qfirst, LAST #qlast ] ] ].
+
+
+;;; probata
+
+arg12345-relation := arg1234-relation &
+  [ ARG5 semarg ].
+arg12345-ev-relation := arg1234-ev-relation & arg12345-relation.
+
+
+four-trans-verb-lex := main-verb-lex & basic-five-arg &
+  [ ARG-ST < [ LOCAL.CONT.HOOK.INDEX ref-ind & #ind1 ],
+	     #comp1 & anti-synsem & [ LOCAL.CONT.HOOK.INDEX.SORT refl-pro ],
+	     #comp2 & [ LOCAL [ CAT [ HEAD adp & [FORM locative],
+							   VAL [SUBJ <>,
+							              COMPS <>] ],
+						  CONT.HOOK.INDEX #ind3 ] ],
+	      #comp3 & [ LOCAL [ CAT [ HEAD adp & [FORM dative],
+							   VAL [SUBJ <>,
+							              COMPS <>] ],
+						    CONT.HOOK.INDEX #ind4] ],
+	     #comp4 & [LOCAL [CAT [ HEAD comp,
+							 VAL.COMPS <> ],
+						CONT.HOOK.LTOP #cltop ] ] > ,
+     SYNSEM [ LOCAL [ CAT.VAL.COMPS <#comp1,#comp2,#comp3,#comp4 >,
+				       CONT.HCONS <! qeq & [HARG #harg, LARG #cltop] !>],
+			LKEYS.KEYREL [ ARG1 #ind1,
+							ARG3 #ind3,
+							ARG4 #ind4,
+							ARG5 #harg ] ] ].
+
+;;;; four-transitive
+
+v_se-2pp-comp_p_lex := four-trans-verb-lex & perfective-lexeme.
+
+;;; Constrain all lexical rules to have ARG be RPUNCT no-punct, to avoid
+;; spurious ordering of each rule with punct rules.
+
+lex-rule :+ [ ARGS < [SYNSEM.PUNCT.R-PUNCT no_punct ] > ].
+
