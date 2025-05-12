@@ -44,7 +44,7 @@ for file in $files; do
     config_rel=$(get_toml "$file" "['ACE_CONFIG_FILE']")
     if [[ -n "$config_rel" ]]; then
 	## only make compatible trees
-	python etc/ltdb/scripts/grm2db.py --checkgrm \
+	python etc/ltdb/scripts/grm2db.py \
 	--outdir build/DBS "${file}" || true
     else
 	echo "⚠️ Skipping: missing ACE_CONFIG_FILE"
@@ -57,5 +57,5 @@ echo "🚀 Successfully created the following grammars"
 find build/DBS -type f -name '*.db' -size +0c -exec du -h {} + | sort -h
 
 echo
-echo "🏗️   Copying to etc/ltdb/web/db/"
+echo "🏗️Copying to etc/ltdb/web/db/"
 find build/DBS -type f -name '*.db' -size +0c -exec cp {} etc/ltdb/web/db/ \;
