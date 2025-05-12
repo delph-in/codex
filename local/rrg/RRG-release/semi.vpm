@@ -1,0 +1,68 @@
+;;; ERB 2007-08-24 Adding semi.vpm now to help in keeping
+;;; generation manageable.  The hope is that I can have the "sg"
+;;; forms be underspecified for number, but use the vpm to take
+;;; inputs underspecified for number and constain them to be 
+;;; [ NUM sg ], which should rule out dual and plural forms.
+
+PNG.PN : PERS NUM
+1sg      <> 1 sg
+1du-incl <> 1i du
+1du-excl <> 1e du
+1pl-incl <> 1i pl
+1pl-excl <> 1e pl
+first    >> 1 !
+excl   	 <> 1e !
+incl   	 <> 1i !
+1sg	 << 1 !
+2sg      <> 2 sg
+2du      <> 2 du
+2pl      <> 2 pl
+second 	 >> 2 !
+2sg	 << 2 !
+3sg      <> 3 sg
+3du      <> 3 du
+3pl      <> 3 pl
+third    >> 3 !
+3sg	 << 3 !
+sg	 <> ! sg
+du	 <> ! du
+pl	 <> ! pl
+
+;;; ERB 2007-08-24 Preserve gender information for now, since
+;;; I'm using this for monolingual generation purpoess.
+
+PNG.GEND : GEND
+m <> m
+ii <> ii
+iii <> iii
+iv <> iv
+anim <> anim
+nm <> nm
+
+;;; ERB 2007-08-24 And make sure we don't lose TMA information.
+
+E.TENSE : TENSE
+past <> past
+present <> pres
+im-future <> im-fut
+future <> fut
+non-past <> non-past
+non-fut <> non-fut
+
+
+E.ASPECT : ASPECT
+prog <> prog
+hab <> hab
+default <> default
+
+E.MOOD : MOOD
+ind <> ind
+non-fut-ind >> gen-ind
+hyp <> hyp
+nact <> nact
+
+SF : SF
+prop <> prop
+ques <> ques
+prop-or-ques <> prop-or-ques
+comm <> comm
