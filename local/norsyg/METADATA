@@ -24,20 +24,20 @@
 
 ## Grammar maintainers and contributors
 
-MAINTAINER="Emily M. Bender"
-CONTRIBUTORS="Emily M. Bender"
-CONTACT_EMAIL="ebender@uw.edu"
+MAINTAINER="Petter Haugereid"
+CONTRIBUTORS="Petter Haugereid"
+CONTACT_EMAIL="petterha@gmail.com"
 
 ## Grammar name and web presence
 ## Note: if SHORT_GRAMMAR_NAME is not defined, the directory name is used.
 
-GRAMMAR_NAME="oWambaya aux+verb cluster grammar"
-SHORT_GRAMMAR_NAME="wambaya"
-WEBSITE="http://wiki.delph-in.net/moin/WambayaTop"
-DEMO_WEBSITE=""
-DOCUMENTATION_URL=""
+GRAMMAR_NAME="Norwegian syntax-based grammar"
+SHORT_GRAMMAR_NAME="Norsyg"
+WEBSITE="http://www.hf.ntnu.no/hf/isk/Ansatte/petter.haugereid/norsyg.html"
+#DEMO_WEBSITE=""
+#DOCUMENTATION_URL=""
 ISSUE_TRACKER=""
-LICENSE=""
+LICENSE="MIT"
 
 ## You may optionally specify a release date for the grammar. If unspecified,
 ## the grammar catalogue script will attempt to extract a date from the
@@ -81,17 +81,17 @@ ASSOCIATED_RESOURCES=""
 
 
 ## Uncomment one:
-#GRAMMAR_TYPE="Resource grammar"
+GRAMMAR_TYPE="Resource grammar"
 #GRAMMAR_TYPE="Treebank trained grammar"
-GRAMMAR_TYPE="Medium-sized linguistic grammar"
+#GRAMMAR_TYPE="Medium-sized lingiustic grammar"
 #GRAMMAR_TYPE="Experimental grammar"
 
 
 ## Language identification
 ## Iso-codes can be looked up at http://www.sil.org/iso639-3/codes.asp
 
-LANGUAGE_NAME="Wambaya"
-ISO_CODE="wmb"
+LANGUAGE_NAME="Norwegian"
+ISO_CODE="nor"
 
 ## File locations of LKB script file and .grm file read by cheap
 ## Paths relative to top of grammar directory
