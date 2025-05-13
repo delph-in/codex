@@ -1,4 +1,4 @@
-[srg]
+[srg]	
 vcs = "git clone https://github.com/delph-in/srg.git"
 trb = "wget https://github.com/delph-in/srg/releases/download/v0.3.6/0.3.6-release.zip"
 
@@ -42,4 +42,10 @@ vcs="git clone https://github.com/bond-lab/krg.git"
 vcs = "git clone https://github.com/davidmoeljadi/INDRA.git"
 
 [yue]
-vcs = "git clone https://github.com/neosome/yue.git" 
+vcs = "git clone https://github.com/neosome/yue.git"
+
+[hag]
+vcs = "svn co http://svn.delph-in.net/trunk/llf/hag"
+
+[gg]
+vcs = "svn co http://svn.delph-in.net/trunk/dfki/gg"

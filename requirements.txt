@@ -1,3 +1,5 @@
 toml
 pydelphin
 grewpy
+svn
+GitPython
