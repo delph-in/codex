@@ -32,17 +32,19 @@ echo "🩹 Overlay local files"
 
 rsync -rv local/ build/
 
+## Download the treebank for SRG
+echo "🌲 Download Treebanks"
+bash scripts/add-treebanks.sh
 
-
-# make directory for 
+# make directory for external software
 mkdir -p etc
 
-# Step 3: Compile with ltdb
+# Step 4: Compile with ltdb
 #echo "🚀 Compile with ltdb"
 
 bash scripts/build-ltdb.sh "${BUILD}"
 
-# Step 4: Compile grammars with ace
+# Step 5: Compile grammars with ace
 echo "🚀 Compile wtih ace"
 
 bash scripts/build-ace.sh "${BUILD}"
