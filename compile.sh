@@ -26,6 +26,7 @@ uv pip install -r requirements.txt
 # Step 3: Download grammars
 echo "🚀 Download grammars"
 
+# DPF commented out
 python scripts/download_grammars.py codex.toml "${BUILD}"
 
 echo "🩹 Overlay local files"
@@ -40,9 +41,14 @@ bash scripts/add-treebanks.sh
 mkdir -p etc
 
 # Step 4: Compile with ltdb
-#echo "🚀 Compile with ltdb"
+echo "🚀 Compile with ltdb"
 
 bash scripts/build-ltdb.sh "${BUILD}"
+
+echo
+echo "🏗️   Copying to etc/ltdb/web/db/"
+find "${BUILD}/DBS" -type f -name '*.db' -size +0c -exec cp {} etc/ltdb/web/db/ \;
+
 
 # Step 5: Compile grammars with ace
 echo "🚀 Compile wtih ace"
