@@ -4,3 +4,48 @@ trb = "wget https://github.com/delph-in/srg/releases/download/v0.3.6/0.3.6-relea
 
 [norsource]
 vcs = "git clone https://github.com/Regdili-NTNU/NorSource.git"
+
+[rrg]
+vcs = "https://www.coli.uni-saarland.de/~tania/rrg/rrg-20110615.tgz"
+
+[norsyg]
+vcs = "git clone https://github.com/petterha/norsyg.git"
+
+[wambaya]
+vcs = "https://faculty.washington.edu/ebender/wmb/wmb.tgz"
+
+[hegram]
+vcs = "https://cl.haifa.ac.il/projects/HeGram/semitic_grammar2-master.zip"
+
+[burger]
+vcs = "http://bultreebank.org/wp-content/uploads/2017/11/bg.zip"
+
+[erg]
+vcs="git clone https://github.com/delph-in/erg.git"
+
+[jacy]
+vcs="git clone https://github.com/delph-in/jacy.git"
+
+[porgram]
+vcs="git clone https://github.com/LR-POR/PorGram.git"
+
+[zhong]
+vcs="git clone https://github.com/delph-in/zhong.git"
+
+[abui]
+vcs="git clone https://github.com/delph-in/abui.git"
+
+[krg]
+vcs="git clone https://github.com/bond-lab/krg.git"
+
+[indra]
+vcs = "git clone https://github.com/davidmoeljadi/INDRA.git"
+
+[yue]
+vcs = "git clone https://github.com/neosome/yue.git"
+
+[hag]
+vcs = "svn co http://svn.delph-in.net/trunk/llf/hag"
+
+[gg]
+vcs = "svn co http://svn.delph-in.net/trunk/dfki/gg"
