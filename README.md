@@ -28,10 +28,8 @@ $ bash scripts/build-ace.sh build
 
 Grammars are listed in the file `codex.toml`
 
-vcs is the way to download the grammar
-tree is the treebank (if it is seperate)
-meta is a list of METADATA files (these will overwrite any local ones)
-size "large|medium|small|matrix"
+ * `vcs` is the way to download the grammar
+ * `tree` is the treebank (if it is seperate, we only handle this for the SRG)
 
 A project will be used to make as many grammars as it has METADATA files
 
@@ -45,11 +43,9 @@ Very rough distinctions so that people can have a general idea about how big the
 * matrix: matrix derived grammar with minimal changes
 
 
+### Make grew corpora
 
-
-
-
-### Make grew corpora with
+*Unfinished*
 
 First install `grew`: https://grew.fr/usage/install/
 and `grewpy`: https://grew.fr/usage/python/
