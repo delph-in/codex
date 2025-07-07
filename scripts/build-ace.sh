@@ -5,12 +5,32 @@
 BUILD="${1:-build}"  # Default to 'build' if not prov
 
 ### get ace
-ACE="ace-0.9.31"
-# acetools-x86-0.9.31.tar.gz
-pushd etc 
-wget -c -N "https://sweaglesw.org/linguistics/ace/download/${ACE}-x86-64.tar.gz"
-tar xfz ${ACE}-x86-64.tar.gz
-popd
+case "$(uname -s)" in
+    Linux)
+        echo "Running on Linux"
+        ACE="ace-0.9.31"
+	# acetools-x86-0.9.31.tar.gz
+	pushd etc 
+	wget -c -N "https://sweaglesw.org/linguistics/ace/download/${ACE}-x86-64.tar.gz"
+	tar xfz ${ACE}-x86-64.tar.gz
+	popd
+        ;;
+    Darwin)
+        echo "Running on macOS"
+	ACE="ace-0.9.34"
+	mkdir -p etc/"${ACE}"
+	pushd etc/"${ACE}"
+	wget -c -N "https://sweaglesw.org/linguistics/ace-0.9.34-m1-test"
+	ln -s ace-0.9.34-m1-test ace
+	popd
+        ;;
+    *)
+        echo "Error: This OS is not supported"
+        echo "Supported OS: Linux and macOS (Darwin)"
+        exit 1
+        ;;
+esac
+
 
 ## find METADATA
 files=$(find "${BUILD}" -type f -name "METADATA")
