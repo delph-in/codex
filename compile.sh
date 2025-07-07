@@ -11,7 +11,7 @@ BUILD="build"
 if [ ! -d "$VENV_DIR" ]; then
   echo "🔧 Creating virtual environment with uv..."
   if ! command -v uv &> /dev/null; then
-    echo "❌ 'uv' is not installed. Please install it: pip install uv"
+    echo "❌ 'uv' is not installed. Please install it: https://docs.astral.sh/uv/getting-started/installation/"
     exit 1
   fi
   uv venv "$VENV_DIR" --python 3.13
