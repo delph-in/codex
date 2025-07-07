@@ -21,6 +21,7 @@ case "$(uname -s)" in
 	mkdir -p etc/"${ACE}"
 	pushd etc/"${ACE}"
 	wget -c -N "https://sweaglesw.org/linguistics/ace-0.9.34-m1-test"
+	chmod +x ace-0.9.34-m1-test
 	ln -s ace-0.9.34-m1-test ace
 	popd
         ;;
@@ -55,6 +56,8 @@ mkdir -p $BUILD/GRAMMARS/
 
 echo $files
 
+ACE_BIN="etc/${ACE}/ace"
+
 for file in $files; do
     echo "Processing: $file"
     config_rel=$(get_toml "$file" "['ACE_CONFIG_FILE']")
@@ -66,11 +69,11 @@ for file in $files; do
         outfile="$BUILD/GRAMMARS/${nam}.dat"
         logfile="$BUILD/GRAMMARS/${nam}-ace.log"
     
-        echo "Compiling into $outfile, log at $logfile with etc/${ACE}/ace"
+        echo "Compiling into $outfile, log at $logfile with ${ACE_BIN}"
 
 	echo "# COMPILING WITH:  etc/${ACE}/ace -g $config -G $outfile"  > "$logfile"
 	
-        etc/"${ACE}/ace" -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' >> "$logfile"
+        "${ACE_BIN}" -g "$config" -G "$outfile" 2>&1 | sed -r 's/\x1B\[[0-9;]*m//g' >> "$logfile"
 
         ace_status=${PIPESTATUS[0]}
     
