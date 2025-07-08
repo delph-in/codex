@@ -31,7 +31,7 @@ CONTACT_EMAIL="petya@bultreebank.org"
 ## Grammar name and web presence
 ## Note: if SHORT_GRAMMAR_NAME is not defined, the directory name is used.
 
-GRAMMAR_NAME="Norwegian HPSG grammar"
+GRAMMAR_NAME="Bulgarian Resource Grammar"
 SHORT_GRAMMAR_NAME="BURGER"
 WEBSITE="http://bultreebank.org/bulgarian-resource-grammar-burger/"
 #DEMO_WEBSITE=""
@@ -48,8 +48,9 @@ LATEST_RELEASE=""
 ## If this is not provided, the text of citation.bib or canonical.bib
 ## will be used in the Grammar Catalogue
 BIB_URL=""
-PDF_URL=""
-CITE=""
+PDF_URL="http://bultreebank.org/wp-content/uploads/2017/11/BURGER3.pdf"
+CITE="Petya Osenova (2010) BUlgarian Resource Grammar – Efficient and Realistic
+(BURGER), Technical report http://bultreebank.org/wp-content/uploads/2017/11/BURGER3.pdf"
 
 ## Version Control
 ## If this is not provided, it is automatically extracted from the
