@@ -7,6 +7,8 @@ See [codex-table.md](codex-table.md) for a list of all grammars and their settin
 
 ## Setup
 
+You must install `subversion` to get the grammars that use svn
+
 $ bash compile.sh
 
 
