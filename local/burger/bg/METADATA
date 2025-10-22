@@ -49,8 +49,7 @@ LATEST_RELEASE=""
 ## will be used in the Grammar Catalogue
 BIB_URL=""
 PDF_URL="http://bultreebank.org/wp-content/uploads/2017/11/BURGER3.pdf"
-CITE="Petya Osenova (2010) BUlgarian Resource Grammar – Efficient and Realistic
-(BURGER), Technical report http://bultreebank.org/wp-content/uploads/2017/11/BURGER3.pdf"
+CITE="Petya Osenova (2010) BUlgarian Resource Grammar – Efficient and Realistic (BURGER), Technical report http://bultreebank.org/wp-content/uploads/2017/11/BURGER3.pdf"
 
 ## Version Control
 ## If this is not provided, it is automatically extracted from the
