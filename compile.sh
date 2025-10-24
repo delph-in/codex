@@ -27,7 +27,7 @@ uv pip install -r requirements.txt
 echo "🚀 Download grammars"
 
 # DPF commented out
-python scripts/download_grammars.py codex.toml "${BUILD}"
+#python scripts/download_grammars.py codex.toml "${BUILD}"
 
 echo "🩹 Overlay local files"
 
@@ -35,7 +35,7 @@ rsync -rv local/ build/
 
 ## Download the treebank for SRG
 echo "🌲 Download Treebanks"
-bash scripts/add-treebanks.sh
+#bash scripts/add-treebanks.sh
 
 # make directory for external software
 mkdir -p etc
