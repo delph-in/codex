@@ -59,23 +59,13 @@ def download_projects(toml_path, output_dir, delete_archives=True):
                 
             url = parts[2]
             print(f"Checking out SVN repository: {url}")
-            
             try:
-                # Use the Python SVN library
-                remote_repo = svn.remote.RemoteClient(url)
-                local_path = str(project_dir)
-                # Checkout the repository to the local path
-                remote_repo.checkout(local_path)
-                print(f"✓ SVN checkout completed using Python SVN library")
-            except Exception as e:
-                print(f"❌ SVN checkout failed using Python library: {e}")
-                print("Falling back to command line SVN...")
-                try:
-                    subprocess.run(["svn", "checkout", url, "."], cwd=project_dir, check=True)
-                    print("✓ SVN checkout completed using command line")
-                except  (subprocess.CalledProcessError, FileNotFoundError) as e:
-                    print(f"❌ SVN checkout failed for {project}: {e}")
-                continue
+                subprocess.run(["svn", "checkout", url, "."], cwd=project_dir, check=True)
+                print(f"✓ SVN checkout completed")
+            except FileNotFoundError:
+                print(f"❌ SVN command not found. Please install Subversion.")
+            except subprocess.CalledProcessError as e:
+                print(f"❌ SVN checkout failed for {project}: {e}")       
         elif vcs.startswith("http"):
             url = vcs
         else:
