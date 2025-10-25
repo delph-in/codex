@@ -31,8 +31,8 @@ CONTACT_EMAIL="ebender@uw.edu"
 ## Grammar name and web presence
 ## Note: if SHORT_GRAMMAR_NAME is not defined, the directory name is used.
 
-GRAMMAR_NAME="Wambaya aux+verb cluster grammar"
-SHORT_GRAMMAR_NAME="wambaya_aux"
+GRAMMAR_NAME="Wambaya Argument Composition grammar"
+SHORT_GRAMMAR_NAME="wambaya_cmp"
 WEBSITE="https://faculty.washington.edu/ebender/wmb/"
 DEMO_WEBSITE=""
 DOCUMENTATION_URL=""
@@ -99,4 +99,4 @@ ISO_CODE="wmb"
 LKB_SCRIPT_FILE="lkb/script"
 CHEAP_GRM_FILE_NAME=""
 ACE_CONFIG_FILE="ace/config.tdl"
-TSDB_ROOTS="../tsdb/home/aux+vc-gold"
+TSDB_ROOTS="../tsdb/home/arg-comp-gold"
